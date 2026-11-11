@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 4 · Rank items by fit rate, not by a guessed price</title>
+<link rel="stylesheet" href="css/academy.css">
+
+<script>
+(function () {
+  var session = 4;
+  var ok = false;
+  try {
+    var raw = localStorage.getItem("ff-academy-progress-v1");
+    var data = raw ? JSON.parse(raw) : null;
+    var prev = data && data.sessions && data.sessions[String(session - 1)];
+    ok = !!(prev && prev.passed);
+  } catch (e) { ok = false; }
+  if (!ok) document.documentElement.classList.add("is-locked");
+})();
+</script>
+</head>
+<body data-page="session" data-session="4">
+<div class="app">
+<aside class="nav">
+<a class="brand" href="index.html"><div class="mark">ff</div><div><strong>fit-finder</strong><span>Learning site</span></div></a>
+<a class="item" href="index.html">Home</a>
+<div class="week">Sprint 1</div>
+<a class="item" data-session="1" href="session-1.html"><i class="dot"></i>S1 · PRD, skeleton, and a CI job with no secrets</a>
+<a class="item" data-session="2" href="session-2.html"><i class="dot"></i>S2 · Two review files, one table</a>
+<a class="item" data-session="3" href="session-3.html"><i class="dot"></i>S3 · A baseline, two learners, and a calibration split</a>
+<div class="week">Sprint 2</div>
+<a class="item active" data-session="4" href="session-4.html"><i class="dot"></i>S4 · Rank items by fit rate, not by a guessed price</a>
+<a class="item" data-session="5" href="session-5.html"><i class="dot"></i>S5 · A local API with three routes</a>
+<a class="item" data-session="6" href="session-6.html"><i class="dot"></i>S6 · An extension that can only see the demo store</a>
+<a class="item" data-session="7" href="session-7.html"><i class="dot"></i>S7 · A simulated experiment with the knobs written down</a>
+<div class="week">Sprint 3</div>
+<a class="item" data-session="8" href="session-8.html"><i class="dot"></i>S8 · Extracts, a star schema, and DAX</a>
+<a class="item" data-session="9" href="session-9.html"><i class="dot"></i>S9 · An H&amp;M adapter that refuses to download</a>
+<a class="item" data-session="10" href="session-10.html"><i class="dot"></i>S10 · Numbers that come from the scripts</a>
+<div class="nav-foot" id="nav-progress">Progress stays in this browser</div>
+</aside>
+<main class="main">
+
+<p class="kicker">Sprint 2 · Session 4</p>
+<h1>Rank items by fit rate, not by a guessed price</h1>
+<p class="lede">The catalog is an aggregate. Price bands are illustrative. Color is a page attribute, not a dataset column.</p>
+<p class="note">About 45–60 minutes · artifact: Offline hit rate</p>
+<div class="lock-screen">
+  <div class="panel">
+    <h2>This session is locked</h2>
+    <p>Pass Session 3 at 80% or better to open the videos and this quiz. Retries on the earlier quiz are unlimited. If you already passed it on another computer, import that progress code from the home page.</p>
+    <p><a class="button" href="session-3.html">Go to Session 3</a> <a class="button secondary" href="index.html">Home</a></p>
+  </div>
+</div>
+<div class="lesson">
+<h2>Read first</h2>
+<ul><li>docs/EVAL_REPORT.md — the content-ranker section.</li><li>src/fit_finder/recommend/catalog.py — the illustrative band table is labeled in the module docstring.</li></ul>
+<h2>Watch in this order</h2>
+<p class="note">Each clip opens with what the file is responsible for, then walks the lines. The line numbers match <code>main</code>.</p>
+<article class="clip">
+<h3>1. Session 4 · Rank inside the category</h3>
+<div class="panel"><p><strong>Architecture.</strong> The ranker is a content score over the item catalog, not a second model. It stays in the requested category. The score mixes historical fit rate, closeness of the usual fit size, and a small support term so a one-review fluke cannot win. Price and color are not observed on UCSD items, and the function says so instead of inventing them.</p></div>
+<video controls preload="metadata" src="videos/session-4/01_rank.mp4">
+<a href="videos/session-4/01_rank.mp4">Download clip 1</a>
+</video>
+<p class="meta">1:16 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/recommend/rank.py">src/fit_finder/recommend/rank.py</a> on <code>main</code></p>
+</article><article class="clip">
+<h3>2. Session 4 · Hit rate on held-out fit reviews</h3>
+<div class="panel"><p><strong>Architecture.</strong> The offline metric asks a retrieval question. Take a held-out review that said the item fit. Hide that item among random other items in the same category. Did the ranker put it in the top ten? This is not a shopper experiment and it does not use the simulated arms.</p></div>
+<video controls preload="metadata" src="videos/session-4/02_evaluate.mp4">
+<a href="videos/session-4/02_evaluate.mp4">Download clip 2</a>
+</video>
+<p class="meta">1:13 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/recommend/evaluate.py">src/fit_finder/recommend/evaluate.py</a> on <code>main</code></p>
+</article>
+<h2>How this session connects</h2>
+<div class="prose"><p>build_catalog rolls reviews up to one row per item. rank_items stays inside the category and scores fit rate, size closeness, and support. evaluate.py asks whether a held-out fit review's item lands in the top 10 of a same-category candidate set.</p></div>
+<h2>Code on main</h2>
+<ul><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/recommend/rank.py"><code>src/fit_finder/recommend/rank.py</code></a></li><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/recommend/evaluate.py"><code>src/fit_finder/recommend/evaluate.py</code></a></li></ul>
+<h2>Practice</h2>
+<div class="prose"><p>A teammate wants to fill missing prices with the midpoint of the illustrative band and train on it. Write the reason that number must not enter the feature matrix.</p></div>
+<h2>Quiz</h2>
+<p class="note">Eight questions. 80% to pass, which means 7 of 8. The questions are about boundaries and tradeoffs. Explanations show after you submit. The salted hash is a self-study speed bump, not protection.</p>
+<div id="quiz"></div>
+</div>
+
+</main>
+</div>
+<script src="js/site-config.js"></script>
+<script src="js/quiz-data.js"></script>
+<script src="js/academy.js"></script>
+</body>
+</html>

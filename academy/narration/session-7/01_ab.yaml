@@ -1,0 +1,28 @@
+title: Session 7 · A generator with the knobs outside the model
+file: src/fit_finder/events/ab.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: This module builds the simulated shoppers. It does not load the size model.
+    A latent size, a biased order, and a policy that is right about direction only
+    with a named probability produce a return. The summarize function is what the
+    eval report quotes, and every dict it returns says simulated true.
+segments:
+- lines: 1-35
+  say: The docstring says returns are not flags from the UCSD files. The imports pull
+    probabilities from assumptions.py, including the policy-right probability that
+    must not be copied from the model card. CATEGORIES are a small fixed list so the
+    extract has a dimension. They are not the 75 lab categories.
+- lines: 48-78
+  say: Order size steps off the latent size with the two documented probabilities,
+    otherwise it matches. A return is a mismatch, flipped with the noise probability.
+    In the treatment arm, acceptance moves one size toward the latent size only when
+    the policy draw says the direction was right. A wrong draw moves further away.
+    Control never accepts a recommendation.
+- lines: 80-132
+  say: Click is a separate draw on the treatment arm only, using the impression probability.
+    summarize computes return rates by arm, a click-through rate, an illustrative
+    dollar total at the assumed unit cost, and a sample size for a planned two point
+    drop from the control rate. The assumptions dict is embedded so the readout carries
+    its knobs.

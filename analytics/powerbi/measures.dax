@@ -1,0 +1,36 @@
+// Measures for the fit-finder report.
+// Paste into Power BI Desktop after the extracts are loaded.
+// Names match analytics/extracts and analytics/powerbi/DATA_MODEL.md.
+
+Recommendation CTR =
+DIVIDE(
+    CALCULATE(COUNTROWS(fact_event), fact_event[event_type] = "click"),
+    CALCULATE(COUNTROWS(fact_event), fact_event[event_type] = "recommendation_impression")
+)
+
+Return Rate =
+DIVIDE(
+    CALCULATE(COUNTROWS(fact_shopper), fact_shopper[returned] = TRUE()),
+    COUNTROWS(fact_shopper)
+)
+
+Return Rate Recs =
+CALCULATE([Return Rate], dim_arm[arm] = "recs")
+
+Return Rate No Recs =
+CALCULATE([Return Rate], dim_arm[arm] = "no_recs")
+
+Simulated Lift PP =
+[Return Rate No Recs] - [Return Rate Recs]
+
+Illustrative Return Cost =
+SUM(fact_shopper[illustrative_return_cost])
+
+Fit Accuracy =
+DIVIDE(
+    CALCULATE(COUNTROWS(fact_model_score), fact_model_score[fit_actual] = fact_model_score[fit_pred]),
+    COUNTROWS(fact_model_score)
+)
+
+Mean Confidence =
+AVERAGE(fact_model_score[confidence])

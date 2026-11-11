@@ -1,0 +1,27 @@
+title: Session 4 · Rank inside the category
+file: src/fit_finder/recommend/rank.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: The ranker is a content score over the item catalog, not a second model. It
+    stays in the requested category. The score mixes historical fit rate, closeness
+    of the usual fit size, and a small support term so a one-review fluke cannot win.
+    Price and color are not observed on UCSD items, and the function says so instead
+    of inventing them.
+segments:
+- lines: 1-16
+  say: The docstring defines likely to keep as the historical share of fit reviews,
+    and it points purchase-history ranking at session nine. That sentence is the boundary
+    between this module and the H and M adapter. They must not collapse into one score.
+- lines: 21-45
+  say: The pool is the category, minus the anchor item if the caller is already looking
+    at one. A passed-in price is compared with the illustrative band. If the price
+    sits outside the band, the function does not drop items, because there is no item
+    price to drop on. It records that fact in price_filter. Color is applied only
+    when some catalog row actually has a color.
+- lines: 46-64
+  say: The score is a weighted sum. Fit rate leads, size closeness is next, and log
+    support is a small tie break normalized inside the pool. The why string is returned
+    to the API so the panel can say what the sort means. The sort is score, then review
+    count.

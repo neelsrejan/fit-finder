@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 6 · An extension that can only see the demo store</title>
+<link rel="stylesheet" href="css/academy.css">
+
+<script>
+(function () {
+  var session = 6;
+  var ok = false;
+  try {
+    var raw = localStorage.getItem("ff-academy-progress-v1");
+    var data = raw ? JSON.parse(raw) : null;
+    var prev = data && data.sessions && data.sessions[String(session - 1)];
+    ok = !!(prev && prev.passed);
+  } catch (e) { ok = false; }
+  if (!ok) document.documentElement.classList.add("is-locked");
+})();
+</script>
+</head>
+<body data-page="session" data-session="6">
+<div class="app">
+<aside class="nav">
+<a class="brand" href="index.html"><div class="mark">ff</div><div><strong>fit-finder</strong><span>Learning site</span></div></a>
+<a class="item" href="index.html">Home</a>
+<div class="week">Sprint 1</div>
+<a class="item" data-session="1" href="session-1.html"><i class="dot"></i>S1 · PRD, skeleton, and a CI job with no secrets</a>
+<a class="item" data-session="2" href="session-2.html"><i class="dot"></i>S2 · Two review files, one table</a>
+<a class="item" data-session="3" href="session-3.html"><i class="dot"></i>S3 · A baseline, two learners, and a calibration split</a>
+<div class="week">Sprint 2</div>
+<a class="item" data-session="4" href="session-4.html"><i class="dot"></i>S4 · Rank items by fit rate, not by a guessed price</a>
+<a class="item" data-session="5" href="session-5.html"><i class="dot"></i>S5 · A local API with three routes</a>
+<a class="item active" data-session="6" href="session-6.html"><i class="dot"></i>S6 · An extension that can only see the demo store</a>
+<a class="item" data-session="7" href="session-7.html"><i class="dot"></i>S7 · A simulated experiment with the knobs written down</a>
+<div class="week">Sprint 3</div>
+<a class="item" data-session="8" href="session-8.html"><i class="dot"></i>S8 · Extracts, a star schema, and DAX</a>
+<a class="item" data-session="9" href="session-9.html"><i class="dot"></i>S9 · An H&amp;M adapter that refuses to download</a>
+<a class="item" data-session="10" href="session-10.html"><i class="dot"></i>S10 · Numbers that come from the scripts</a>
+<div class="nav-foot" id="nav-progress">Progress stays in this browser</div>
+</aside>
+<main class="main">
+
+<p class="kicker">Sprint 2 · Session 6</p>
+<h1>An extension that can only see the demo store</h1>
+<p class="lede">The manifest is the trust boundary. The parser test is how CI checks the page contract without Chrome.</p>
+<p class="note">About 40–55 minutes · artifact: Unpacked extension and a parser test</p>
+<div class="lock-screen">
+  <div class="panel">
+    <h2>This session is locked</h2>
+    <p>Pass Session 5 at 80% or better to open the videos and this quiz. Retries on the earlier quiz are unlimited. If you already passed it on another computer, import that progress code from the home page.</p>
+    <p><a class="button" href="session-5.html">Go to Session 5</a> <a class="button secondary" href="index.html">Home</a></p>
+  </div>
+</div>
+<div class="lesson">
+<h2>Read first</h2>
+<ul><li>extension/README.md — load unpacked, serve the demo store.</li><li>docs/DEMO.md — the storyboard is drawn, not a retailer capture.</li></ul>
+<h2>Watch in this order</h2>
+<p class="note">Each clip opens with what the file is responsible for, then walks the lines. The line numbers match <code>main</code>.</p>
+<article class="clip">
+<h3>1. Session 6 · The page contract, tested without Chrome</h3>
+<div class="panel"><p><strong>Architecture.</strong> This parser is the test double for the content script. Both read the same attributes on a demo page: product id, category, price, colors, size-chart rows, and the selected size. CI can check the fixture HTML without launching a browser. The parser does not fetch URLs.</p></div>
+<video controls preload="metadata" src="videos/session-6/01_pageparse.mp4">
+<a href="videos/session-6/01_pageparse.mp4">Download clip 1</a>
+</video>
+<p class="meta">1:09 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/pageparse.py">src/fit_finder/pageparse.py</a> on <code>main</code></p>
+</article><article class="clip">
+<h3>2. Session 6 · The panel only on the demo origin</h3>
+<div class="panel"><p><strong>Architecture.</strong> The content script is the browser half of the same contract. It reads the page, calls the local API, and renders a panel. It does not decide which sites it may run on. The manifest does. If the API is down, the panel says so instead of inventing a size.</p></div>
+<video controls preload="metadata" src="videos/session-6/02_content.mp4">
+<a href="videos/session-6/02_content.mp4">Download clip 2</a>
+</video>
+<p class="meta">1:30 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/extension/content.js">extension/content.js</a> on <code>main</code></p>
+</article>
+<h2>How this session connects</h2>
+<div class="prose"><p>The content script and pageparse.py both read article.product, the size chart rows, and the size select. The manifest lists localhost and 127.0.0.1 only. A unit test fails if a retailer name appears in the manifest.</p></div>
+<h2>Code on main</h2>
+<ul><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/pageparse.py"><code>src/fit_finder/pageparse.py</code></a></li><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/extension/content.js"><code>extension/content.js</code></a></li></ul>
+<h2>Practice</h2>
+<div class="prose"><p>Describe what would start being collected if the content script match became every https page. That is the whole answer. Do not widen the match.</p></div>
+<h2>Quiz</h2>
+<p class="note">Eight questions. 80% to pass, which means 7 of 8. The questions are about boundaries and tradeoffs. Explanations show after you submit. The salted hash is a self-study speed bump, not protection.</p>
+<div id="quiz"></div>
+</div>
+
+</main>
+</div>
+<script src="js/site-config.js"></script>
+<script src="js/quiz-data.js"></script>
+<script src="js/academy.js"></script>
+</body>
+</html>

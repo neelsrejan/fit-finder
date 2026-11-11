@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 1 · PRD, skeleton, and a CI job with no secrets</title>
+<link rel="stylesheet" href="css/academy.css">
+
+</head>
+<body data-page="session" data-session="1">
+<div class="app">
+<aside class="nav">
+<a class="brand" href="index.html"><div class="mark">ff</div><div><strong>fit-finder</strong><span>Learning site</span></div></a>
+<a class="item" href="index.html">Home</a>
+<div class="week">Sprint 1</div>
+<a class="item active" data-session="1" href="session-1.html"><i class="dot"></i>S1 · PRD, skeleton, and a CI job with no secrets</a>
+<a class="item" data-session="2" href="session-2.html"><i class="dot"></i>S2 · Two review files, one table</a>
+<a class="item" data-session="3" href="session-3.html"><i class="dot"></i>S3 · A baseline, two learners, and a calibration split</a>
+<div class="week">Sprint 2</div>
+<a class="item" data-session="4" href="session-4.html"><i class="dot"></i>S4 · Rank items by fit rate, not by a guessed price</a>
+<a class="item" data-session="5" href="session-5.html"><i class="dot"></i>S5 · A local API with three routes</a>
+<a class="item" data-session="6" href="session-6.html"><i class="dot"></i>S6 · An extension that can only see the demo store</a>
+<a class="item" data-session="7" href="session-7.html"><i class="dot"></i>S7 · A simulated experiment with the knobs written down</a>
+<div class="week">Sprint 3</div>
+<a class="item" data-session="8" href="session-8.html"><i class="dot"></i>S8 · Extracts, a star schema, and DAX</a>
+<a class="item" data-session="9" href="session-9.html"><i class="dot"></i>S9 · An H&amp;M adapter that refuses to download</a>
+<a class="item" data-session="10" href="session-10.html"><i class="dot"></i>S10 · Numbers that come from the scripts</a>
+<div class="nav-foot" id="nav-progress">Progress stays in this browser</div>
+</aside>
+<main class="main">
+
+<p class="kicker">Sprint 1 · Session 1</p>
+<h1>PRD, skeleton, and a CI job with no secrets</h1>
+<p class="lede">Name the promise, name what the extension will not touch, and make the repo install and test before any model exists.</p>
+<p class="note">About 45–60 minutes · artifact: Green pytest, PRD, backlog</p>
+<div class="lock-screen">
+  <div class="panel">
+    <h2>This session is locked</h2>
+    <p>Pass Session 0 at 80% or better to open the videos and this quiz. Retries on the earlier quiz are unlimited. If you already passed it on another computer, import that progress code from the home page.</p>
+    <p><a class="button" href="session-0.html">Go to Session 0</a> <a class="button secondary" href="index.html">Home</a></p>
+  </div>
+</div>
+<div class="lesson">
+<h2>Read first</h2>
+<ul><li>PRD.md — the fit label is the promise, and retailer sites are out of scope.</li><li>BACKLOG.md — FF-101 through FF-104 are the skeleton stories.</li></ul>
+<h2>Watch in this order</h2>
+<p class="note">Each clip opens with what the file is responsible for, then walks the lines. The line numbers match <code>main</code>.</p>
+<article class="clip">
+<h3>1. Session 1 · Settings and the secret boundary</h3>
+<div class="panel"><p><strong>Architecture.</strong> This file is the only place that reads the Kaggle token. The model, the API, and the extension never see the raw key. The repr is the boundary that keeps a log line from becoming a leak, and the allow flag defaults off so importing the package does not download anything.</p></div>
+<video controls preload="metadata" src="videos/session-1/01_config.mp4">
+<a href="videos/session-1/01_config.mp4">Download clip 1</a>
+</video>
+<p class="meta">1:37 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/config.py">src/fit_finder/config.py</a> on <code>main</code></p>
+</article><article class="clip">
+<h3>2. Session 1 · CI proves the repo, not the model</h3>
+<div class="panel"><p><strong>Architecture.</strong> CI is the contract that a stranger can install the package and run the tests. It does not download the UCSD files, it does not train the full model, and it does not hold a secret. The second job rebuilds the learning site and fails if the committed pages drift from the generator.</p></div>
+<video controls preload="metadata" src="videos/session-1/02_ci.mp4">
+<a href="videos/session-1/02_ci.mp4">Download clip 2</a>
+</video>
+<p class="meta">1:13 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/.github/workflows/ci.yml">.github/workflows/ci.yml</a> on <code>main</code></p>
+</article>
+<h2>How this session connects</h2>
+<div class="prose"><p>Settings is the only place that reads KAGGLE_KEY. The repr reports set or missing, so a log of the settings object cannot leak the token. CI installs the package and runs pytest. It does not download the UCSD files and it does not call Kaggle.</p></div>
+<h2>Code on main</h2>
+<ul><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/config.py"><code>src/fit_finder/config.py</code></a></li><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/.github/workflows/ci.yml"><code>.github/workflows/ci.yml</code></a></li></ul>
+<h2>Practice</h2>
+<div class="prose"><p>On paper, list the three things a reviewer should be able to tell from the README in under a minute: what is held out, what is simulated, and what is blocked on an account. Do not add a retailer host to the extension while you do it.</p></div>
+<h2>Quiz</h2>
+<p class="note">Eight questions. 80% to pass, which means 7 of 8. The questions are about boundaries and tradeoffs. Explanations show after you submit. The salted hash is a self-study speed bump, not protection.</p>
+<div id="quiz"></div>
+</div>
+
+</main>
+</div>
+<script src="js/site-config.js"></script>
+<script src="js/quiz-data.js"></script>
+<script src="js/academy.js"></script>
+</body>
+</html>

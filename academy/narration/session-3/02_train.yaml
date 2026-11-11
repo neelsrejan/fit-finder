@@ -1,0 +1,34 @@
+title: Session 3 · Choose by log loss, report the size loss
+file: src/fit_finder/model/train.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: Training fits three models on the same matrix, calibrates the learners on the
+    validation split, and picks the lowest validation log loss. The test split is
+    scored after that choice. A separate size search asks which nearby size has the
+    highest probability of fit. That search is allowed to lose to the most-common-fit-size
+    rule, and the model card records the loss.
+segments:
+- lines: 74-86
+  say: Metrics align the probability columns to lexicographic label order before log
+    loss. Recent scikit-learn one-hot encodes labels that way and does not reorder
+    your columns to match a custom list. Accuracy and macro F1 still use the class
+    names. Macro F1 is there so a model that only says fit cannot hide.
+- lines: 104-112
+  say: Calibration wraps a fitted learner in FrozenEstimator and fits Platt scaling
+    on the validation rows. If the validation slice is tiny or single-class, the wrapper
+    is skipped. The majority baseline is not passed through this function. Its probabilities
+    are already the training mix.
+- lines: 149-179
+  say: direction_hit is the size question, not the class question. Fit means stay.
+    Small means the garment was small, so a larger size is the correction. Large means
+    the opposite. score_size_policy stacks a few offsets, rescores P of fit, and picks
+    the best. It does not look at the true label. The true label is only used afterwards,
+    in the metric.
+- lines: 196-230
+  say: prepare assigns the split, builds the training reference, and attaches features.
+    The three candidates are the majority class, logistic regression, and LightGBM.
+    After fit, the learners are calibrated. The name with the lowest validation log
+    loss becomes chosen. Test probabilities are computed for all three so the card
+    can show the ones that lost.

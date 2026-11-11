@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fit-finder"
+version = "0.1.0"
+description = "Portfolio prototype that predicts apparel fit with calibrated confidence and ranks similar items. Public fit reviews, a local API, and a demo-store extension. Shopper traffic is simulated."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Neel Srejan" }]
+keywords = ["product", "analytics", "size-recommendation", "portfolio"]
+dependencies = [
+  "pandas>=2.2",
+  "numpy>=1.26",
+  "pyarrow>=15",
+  "scikit-learn>=1.4",
+  "lightgbm>=4.3",
+  "joblib>=1.3",
+  "pydantic>=2",
+  "fastapi>=0.110",
+  "uvicorn>=0.27",
+  "pyyaml>=6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "httpx>=0.27"]
+academy = ["edge-tts>=7.2.7", "pygments>=2.18", "pillow>=10", "pyyaml>=6", "markdown>=3.5"]
+
+[project.scripts]
+fit-finder-api = "fit_finder.api.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.setuptools.package-data]
+fit_finder = ["py.typed"]

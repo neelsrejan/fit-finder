@@ -1,0 +1,20 @@
+#fit-finder-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 320px;
+  max-height: 70vh;
+  overflow: auto;
+  background: #14232b;
+  color: #f4efe6;
+  padding: 16px 16px 12px;
+  border-radius: 12px;
+  font: 14px/1.45 "Segoe UI", sans-serif;
+  z-index: 9999;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+#fit-finder-panel h2, #fit-finder-panel h3 { margin: 0 0 8px; font-size: 16px; }
+#fit-finder-panel h3 { margin-top: 12px; font-size: 14px; }
+#fit-finder-panel .ff-size { font-size: 18px; }
+#fit-finder-panel .ff-note { color: #c9d5de; font-size: 12px; }
+#fit-finder-panel ul { padding-left: 18px; margin: 6px 0 0; }

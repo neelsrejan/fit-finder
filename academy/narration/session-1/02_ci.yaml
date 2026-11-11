@@ -1,0 +1,25 @@
+title: Session 1 · CI proves the repo, not the model
+file: .github/workflows/ci.yml
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: CI is the contract that a stranger can install the package and run the tests.
+    It does not download the UCSD files, it does not train the full model, and it
+    does not hold a secret. The second job rebuilds the learning site and fails if
+    the committed pages drift from the generator.
+segments:
+- lines: 1-7
+  say: The workflow runs on every push and every pull request. There is no environment
+    block and no secret reference. If a future edit adds a Kaggle token here, it would
+    be a different product decision, and it would be visible in this file.
+- lines: 8-24
+  say: The test job uses a matrix of Python 3.11 and 3.12 because the package promises
+    3.11 or newer. The install is an editable install with the dev extra, which is
+    pytest and httpx. The command is python dash m pytest. The tests train a tiny
+    synthetic model. They do not need the 275 thousand review file.
+- lines: 26-37
+  say: The learning-site job rebuilds the static pages from the quiz bank and the
+    narration YAML. git diff exit code fails the job if academy/site or the answer
+    key changed without being committed. That keeps the site a generated artifact
+    instead of a hand-edited page that drifts from the questions.

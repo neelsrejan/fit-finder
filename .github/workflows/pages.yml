@@ -1,0 +1,46 @@
+name: Learning site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install the narration renderer
+        run: python -m pip install -r academy/requirements.txt
+      - name: Render walkthrough videos
+        run: python academy/scripts/render_all.py
+      - name: Rebuild the site so durations match the videos
+        run: python academy/scripts/build_site.py
+      - name: Stage the site and the videos
+        run: |
+          rm -rf academy/build/pages
+          mkdir -p academy/build/pages
+          cp -a academy/site/. academy/build/pages/
+          mkdir -p academy/build/pages/videos
+          cp -a academy/build/videos/. academy/build/pages/videos/
+          find academy/build/pages/videos -name '*.json' -delete
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: academy/build/pages
+      - id: deployment
+        uses: actions/deploy-pages@v4

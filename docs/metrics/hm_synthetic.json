@@ -1,0 +1,20 @@
+{
+  "blocked": "H&M Kaggle file was not downloaded. Metrics are the synthetic fixture.",
+  "content": {
+    "hit_rate": 0.575,
+    "mrr": 0.3354166666666667,
+    "n": 80,
+    "k": 3,
+    "method": "content_fit_rate",
+    "simulated_fixture": true
+  },
+  "collaborative_filtering": {
+    "hit_rate": 0.1,
+    "mrr": 0.1333589392848294,
+    "n": 80,
+    "k": 3,
+    "method": "item_item_cosine",
+    "simulated_fixture": true
+  },
+  "note": "Content ranking uses planted fit_rate and category. Collaborative filtering uses planted category preference in the purchases. Neither number is an H&M customer metric."
+}

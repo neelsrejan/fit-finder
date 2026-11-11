@@ -1,0 +1,30 @@
+title: Session 6 · The panel only on the demo origin
+file: extension/content.js
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: The content script is the browser half of the same contract. It reads the page,
+    calls the local API, and renders a panel. It does not decide which sites it may
+    run on. The manifest does. If the API is down, the panel says so instead of inventing
+    a size.
+segments:
+- lines: 1-31
+  say: API is hardcoded to localhost port 8000, the same port the console script binds.
+    product reads article.product and the size chart. selected size prefers an option
+    with the selected attribute, then the select's current value. This is the page
+    the Python parser also accepts.
+- lines: 33-47
+  say: The panel is a single aside. Creating it twice would stack panels, so the function
+    reuses the node. The first line of copy says demo store only. render replaces
+    the body. None of this code inspects other tabs or other origins.
+- lines: 48-90
+  say: load posts the category and the numeric size to predict-size, then posts the
+    recommended size to recommend, passing the page price and the first color. The
+    recommend response is a list of item ids and fit rates. A follow-up event post
+    records that a prediction happened on the demo. Failures fall through to the catch.
+- lines: 91-121
+  say: The catch tells the reader to start fit-finder-api. It does not substitute
+    a canned size. The script runs on DOMContentLoaded or immediately if the document
+    is already loaded. That is the whole extension behavior. Host matching lives in
+    the manifest, which the unit test reads as JSON.

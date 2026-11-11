@@ -1,0 +1,27 @@
+title: Session 5 · Three routes and a frozen bundle
+file: src/fit_finder/api/app.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: The app is the edge. It loads the joblib bundle and the catalog once, validates
+    bodies, and delegates. It does not train, it does not download, and it does not
+    run the simulated experiment. Health reports the two blocked account steps so
+    a reader of the docs page can see them.
+segments:
+- lines: 1-45
+  say: The FastAPI description says confidence comes from a calibrated model and that
+    posted events are not store traffic. Startup reads settings and loads files only
+    if they exist. A missing file stays None. The process still boots, which lets
+    health and the 503 path be tested.
+- lines: 47-65
+  say: Health returns model_loaded and catalog_loaded, plus the two blocked strings
+    for H and M and Power BI publish. predict-size returns 503 when the bundle is
+    missing instead of inventing a class. The handler calls predict_one and wraps
+    the dict in SizeResponse.
+- lines: 67-103
+  say: Recommend returns 503 without a catalog, otherwise rank_items. Numeric fields
+    are cast before pydantic sees them, because parquet can hand back numpy types.
+    The note in the response repeats the illustrative-price rule. Events append a
+    JSON line and return simulated false. main is the console script that binds localhost
+    port 8000.

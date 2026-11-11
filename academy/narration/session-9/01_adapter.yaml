@@ -1,0 +1,29 @@
+title: Session 9 · A source interface with the socket closed
+file: src/fit_finder/hm/adapter.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: Purchase history sits behind PurchaseHistorySource so the rankers do not import
+    Kaggle. SyntheticHMSource is what tests and the comparison run. KaggleHMSource
+    only maps files that are already on disk. download_kaggle is the env-var path,
+    and it raises unless the allow flag and both secrets are set. This build does
+    not call it.
+segments:
+- lines: 1-33
+  say: 'The module docstring names the competition slug and says the repo does not
+    download it. HMDownloadBlocked is the error a caller gets. The base class defines
+    articles and transactions in the shared columns: item id, category, color, price,
+    and the transaction grain of user, item, price, and date.'
+- lines: 35-92
+  say: The synthetic source builds a small article list with category, color, list
+    price, and a planted fit rate. Transactions give each user a preferred category
+    plus one off-category item. The docstring says the preference is planted. That
+    sentence is load-bearing. The hit rate on this fixture is not an H and M customer
+    metric.
+- lines: 135-163
+  say: download_kaggle reads settings. If the allow flag is off, it raises before
+    it looks at the network. If the username or key is empty, it raises a second message
+    that tells Neel to create a token and not commit it. Only after both locks open
+    does it import the Kaggle client. Accepting the competition rules in the browser
+    is still his step, and the docstring says a key alone is not enough.

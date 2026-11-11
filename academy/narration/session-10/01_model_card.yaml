@@ -1,0 +1,29 @@
+title: Session 10 · The card is a formatter
+file: src/fit_finder/eval/render.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: The report module does not train and does not simulate. It reads JSON that
+    other scripts wrote and formats sentences around those digits. That is why a resume
+    bullet cannot drift from the model card unless someone edits the prose template.
+    The size-search loss is hard-coded as a sentence because the comparison is part
+    of the result, not an optional footnote.
+segments:
+- lines: 1-20
+  say: The docstring says the prose is fixed and the numbers come from docs/metrics.
+    _fmt is the only way a float becomes text. A hand-typed digit in the markdown
+    would bypass it, which is why the committed model card is the output of write_all,
+    not a separate essay.
+- lines: 21-55
+  say: render_model_card names the chosen model and the selection rule, then prints
+    the three test rows. The directional lines follow. The paragraph after them states
+    that the neighbor search lost to the most-common-fit-size rule and that the two
+    catalogs do not share a size scale. That paragraph is the honesty constraint on
+    the size suggestion the API still returns.
+- lines: 127-157
+  say: render_resume builds four bullets from the same JSON plus the simulated readout.
+    The first bullet includes the size-search loss so a shortened resume cannot quietly
+    drop it. The closing line forbids calling the work a launched product or calling
+    the SQL advanced. write_all is what scripts/build_metrics.py calls after the JSON
+    files exist.

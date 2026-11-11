@@ -1,0 +1,22 @@
+title: Session 10 · Four sections, two kinds of number
+file: src/fit_finder/eval/render.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: The eval report is the single page a hiring manager can read after the model
+    card. It keeps held-out fit metrics, the content ranker, the simulated experiment,
+    and the blocked H and M comparison in separate sections. The function refuses
+    to compute a new number. If a figure is not in the JSON, it cannot appear.
+segments:
+- lines: 79-110
+  say: render_eval_report opens by saying which numbers are held out and which are
+    not. The fit section quotes the chosen model and the majority baseline. The ranker
+    section quotes hit rate, MRR, n, and the label string that evaluate.py returned.
+    Those fields are why the metric definition survives the trip into markdown.
+- lines: 111-126
+  say: The simulated section prints the word SIMULATED before any rate. Dollars use
+    the assumed unit cost from the JSON, which itself came from the named constant.
+    The H and M section prints the blocked string and both fixture hit rates, then
+    the note that the preference was planted. A reader who merges these sections has
+    to delete a heading to do it.

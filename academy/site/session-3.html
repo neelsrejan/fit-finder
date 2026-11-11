@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 3 · A baseline, two learners, and a calibration split</title>
+<link rel="stylesheet" href="css/academy.css">
+
+<script>
+(function () {
+  var session = 3;
+  var ok = false;
+  try {
+    var raw = localStorage.getItem("ff-academy-progress-v1");
+    var data = raw ? JSON.parse(raw) : null;
+    var prev = data && data.sessions && data.sessions[String(session - 1)];
+    ok = !!(prev && prev.passed);
+  } catch (e) { ok = false; }
+  if (!ok) document.documentElement.classList.add("is-locked");
+})();
+</script>
+</head>
+<body data-page="session" data-session="3">
+<div class="app">
+<aside class="nav">
+<a class="brand" href="index.html"><div class="mark">ff</div><div><strong>fit-finder</strong><span>Learning site</span></div></a>
+<a class="item" href="index.html">Home</a>
+<div class="week">Sprint 1</div>
+<a class="item" data-session="1" href="session-1.html"><i class="dot"></i>S1 · PRD, skeleton, and a CI job with no secrets</a>
+<a class="item" data-session="2" href="session-2.html"><i class="dot"></i>S2 · Two review files, one table</a>
+<a class="item active" data-session="3" href="session-3.html"><i class="dot"></i>S3 · A baseline, two learners, and a calibration split</a>
+<div class="week">Sprint 2</div>
+<a class="item" data-session="4" href="session-4.html"><i class="dot"></i>S4 · Rank items by fit rate, not by a guessed price</a>
+<a class="item" data-session="5" href="session-5.html"><i class="dot"></i>S5 · A local API with three routes</a>
+<a class="item" data-session="6" href="session-6.html"><i class="dot"></i>S6 · An extension that can only see the demo store</a>
+<a class="item" data-session="7" href="session-7.html"><i class="dot"></i>S7 · A simulated experiment with the knobs written down</a>
+<div class="week">Sprint 3</div>
+<a class="item" data-session="8" href="session-8.html"><i class="dot"></i>S8 · Extracts, a star schema, and DAX</a>
+<a class="item" data-session="9" href="session-9.html"><i class="dot"></i>S9 · An H&amp;M adapter that refuses to download</a>
+<a class="item" data-session="10" href="session-10.html"><i class="dot"></i>S10 · Numbers that come from the scripts</a>
+<div class="nav-foot" id="nav-progress">Progress stays in this browser</div>
+</aside>
+<main class="main">
+
+<p class="kicker">Sprint 1 · Session 3</p>
+<h1>A baseline, two learners, and a calibration split</h1>
+<p class="lede">The class label and the size suggestion are different questions. Log loss picks the class model. The size search can lose, and the card says so.</p>
+<p class="note">About 60–80 minutes · artifact: Model card from held-out metrics</p>
+<div class="lock-screen">
+  <div class="panel">
+    <h2>This session is locked</h2>
+    <p>Pass Session 2 at 80% or better to open the videos and this quiz. Retries on the earlier quiz are unlimited. If you already passed it on another computer, import that progress code from the home page.</p>
+    <p><a class="button" href="session-2.html">Go to Session 2</a> <a class="button secondary" href="index.html">Home</a></p>
+  </div>
+</div>
+<div class="lesson">
+<h2>Read first</h2>
+<ul><li>docs/MODEL_CARD.md — logistic wins on log loss. The size search loses to the mode.</li><li>docs/DESIGN_DECISIONS.md — why accuracy is the wrong selection rule.</li></ul>
+<h2>Watch in this order</h2>
+<p class="note">Each clip opens with what the file is responsible for, then walks the lines. The line numbers match <code>main</code>.</p>
+<article class="clip">
+<h3>1. Session 3 · History that cannot see the label</h3>
+<div class="panel"><p><strong>Architecture.</strong> Feature construction is where leakage would enter. Item rates and the shopper&#x27;s past mix are allowed because a returning shopper and a known item have that history. The row being scored does not contribute its own fit label. Length, quality, and review text are not in the feature list at all.</p></div>
+<video controls preload="metadata" src="videos/session-3/01_features.mp4">
+<a href="videos/session-3/01_features.mp4">Download clip 1</a>
+</video>
+<p class="meta">1:24 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/model/features.py">src/fit_finder/model/features.py</a> on <code>main</code></p>
+</article><article class="clip">
+<h3>2. Session 3 · Choose by log loss, report the size loss</h3>
+<div class="panel"><p><strong>Architecture.</strong> Training fits three models on the same matrix, calibrates the learners on the validation split, and picks the lowest validation log loss. The test split is scored after that choice. A separate size search asks which nearby size has the highest probability of fit. That search is allowed to lose to the most-common-fit-size rule, and the model card records the loss.</p></div>
+<video controls preload="metadata" src="videos/session-3/02_train.mp4">
+<a href="videos/session-3/02_train.mp4">Download clip 2</a>
+</video>
+<p class="meta">1:46 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/model/train.py">src/fit_finder/model/train.py</a> on <code>main</code></p>
+</article>
+<h2>How this session connects</h2>
+<div class="prose"><p>split.py holds out a shopper's later review. features.py builds history from training rows only, leave-one-out on the training table. train.py fits three models, calibrates the learners on validation, and chooses by validation log loss. Test is scored once.</p></div>
+<h2>Code on main</h2>
+<ul><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/model/features.py"><code>src/fit_finder/model/features.py</code></a></li><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/model/train.py"><code>src/fit_finder/model/train.py</code></a></li></ul>
+<h2>Practice</h2>
+<div class="prose"><p>Say which number you would quote for the fit label, and which number you would refuse to quote as a better size policy. Both numbers are already in the model card.</p></div>
+<h2>Quiz</h2>
+<p class="note">Eight questions. 80% to pass, which means 7 of 8. The questions are about boundaries and tradeoffs. Explanations show after you submit. The salted hash is a self-study speed bump, not protection.</p>
+<div id="quiz"></div>
+</div>
+
+</main>
+</div>
+<script src="js/site-config.js"></script>
+<script src="js/quiz-data.js"></script>
+<script src="js/academy.js"></script>
+</body>
+</html>

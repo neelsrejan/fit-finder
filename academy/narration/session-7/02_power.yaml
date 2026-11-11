@@ -1,0 +1,20 @@
+title: Session 7 · The sample size is computed
+file: src/fit_finder/events/power.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: The power helper exists so the number in the readout is a formula, not a typed
+    integer. It is the normal approximation for two proportions with equal allocation.
+    It does not know about fit reviews. The caller passes the control rate from the
+    simulation and a planned treatment rate two points lower.
+segments:
+- lines: 1-11
+  say: The docstring names the test. z_value is a numeric inverse of the normal CDF,
+    included so the project does not take a second statistics dependency for one quantile.
+    The approximation is aimed at the two tails this readout uses, 0.975 and 0.80.
+- lines: 68-77
+  say: sample_size_per_arm returns zero when the two rates match, because the formula
+    would divide by zero and the right answer is that no finite sample detects a zero
+    effect. Otherwise it is the usual z alpha plus z beta, squared, times the sum
+    of Bernoulli variances, over the squared gap. The caller rounds up.

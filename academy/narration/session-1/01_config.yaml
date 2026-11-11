@@ -1,0 +1,32 @@
+title: Session 1 · Settings and the secret boundary
+file: src/fit_finder/config.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: This file is the only place that reads the Kaggle token. The model, the API,
+    and the extension never see the raw key. The repr is the boundary that keeps a
+    log line from becoming a leak, and the allow flag defaults off so importing the
+    package does not download anything.
+segments:
+- lines: 1-14
+  say: 'The module docstring states the rule before any code: a token must never appear
+    in a log line. ROOT points at the repository, two parents up from this file. The
+    flag helper treats a few truthy strings as on and everything else as off. That
+    is how the H and M download stays closed unless someone sets it on purpose.'
+- lines: 16-30
+  say: Settings is a frozen dataclass. The paths have defaults so the API can boot
+    with no environment at all. The Kaggle fields exist so the blocked download has
+    a documented place to look. They are ordinary strings in memory. The interesting
+    boundary is not storage. It is what happens when the object is printed.
+- lines: 32-41
+  say: Repr reports the key as set or missing, and the username the same way. The
+    path names are included because those are not secret. The token value is not interpolated.
+    If a later edit adds the key to this string, the unit test that searches the repr
+    for a planted token fails in CI.
+- lines: 44-57
+  say: load_settings reads optional path overrides and the two Kaggle variables. Empty
+    string is the default, not a placeholder token. allow_kaggle_download goes through
+    the flag helper, so an unset variable is false. Nothing in this function opens
+    a socket. The download module is the only caller that might, and it checks the
+    flag first.

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 8 · Extracts, a star schema, and DAX</title>
+<link rel="stylesheet" href="css/academy.css">
+
+<script>
+(function () {
+  var session = 8;
+  var ok = false;
+  try {
+    var raw = localStorage.getItem("ff-academy-progress-v1");
+    var data = raw ? JSON.parse(raw) : null;
+    var prev = data && data.sessions && data.sessions[String(session - 1)];
+    ok = !!(prev && prev.passed);
+  } catch (e) { ok = false; }
+  if (!ok) document.documentElement.classList.add("is-locked");
+})();
+</script>
+</head>
+<body data-page="session" data-session="8">
+<div class="app">
+<aside class="nav">
+<a class="brand" href="index.html"><div class="mark">ff</div><div><strong>fit-finder</strong><span>Learning site</span></div></a>
+<a class="item" href="index.html">Home</a>
+<div class="week">Sprint 1</div>
+<a class="item" data-session="1" href="session-1.html"><i class="dot"></i>S1 · PRD, skeleton, and a CI job with no secrets</a>
+<a class="item" data-session="2" href="session-2.html"><i class="dot"></i>S2 · Two review files, one table</a>
+<a class="item" data-session="3" href="session-3.html"><i class="dot"></i>S3 · A baseline, two learners, and a calibration split</a>
+<div class="week">Sprint 2</div>
+<a class="item" data-session="4" href="session-4.html"><i class="dot"></i>S4 · Rank items by fit rate, not by a guessed price</a>
+<a class="item" data-session="5" href="session-5.html"><i class="dot"></i>S5 · A local API with three routes</a>
+<a class="item" data-session="6" href="session-6.html"><i class="dot"></i>S6 · An extension that can only see the demo store</a>
+<a class="item" data-session="7" href="session-7.html"><i class="dot"></i>S7 · A simulated experiment with the knobs written down</a>
+<div class="week">Sprint 3</div>
+<a class="item active" data-session="8" href="session-8.html"><i class="dot"></i>S8 · Extracts, a star schema, and DAX</a>
+<a class="item" data-session="9" href="session-9.html"><i class="dot"></i>S9 · An H&amp;M adapter that refuses to download</a>
+<a class="item" data-session="10" href="session-10.html"><i class="dot"></i>S10 · Numbers that come from the scripts</a>
+<div class="nav-foot" id="nav-progress">Progress stays in this browser</div>
+</aside>
+<main class="main">
+
+<p class="kicker">Sprint 3 · Session 8</p>
+<h1>Extracts, a star schema, and DAX</h1>
+<p class="lede">Power BI is the dashboard. The repo ships the files Neel loads on Windows. Publish-to-web waits on a Microsoft account.</p>
+<p class="note">About 40–55 minutes · artifact: Power BI build guide, no .pbix yet</p>
+<div class="lock-screen">
+  <div class="panel">
+    <h2>This session is locked</h2>
+    <p>Pass Session 7 at 80% or better to open the videos and this quiz. Retries on the earlier quiz are unlimited. If you already passed it on another computer, import that progress code from the home page.</p>
+    <p><a class="button" href="session-7.html">Go to Session 7</a> <a class="button secondary" href="index.html">Home</a></p>
+  </div>
+</div>
+<div class="lesson">
+<h2>Read first</h2>
+<ul><li>analytics/powerbi/DATA_MODEL.md</li><li>analytics/powerbi/BUILD.md — the four pages and the blocked publish step.</li></ul>
+<h2>Watch in this order</h2>
+<p class="note">Each clip opens with what the file is responsible for, then walks the lines. The line numbers match <code>main</code>.</p>
+<article class="clip">
+<h3>1. Session 8 · Two facts that must not be joined</h3>
+<div class="panel"><p><strong>Architecture.</strong> Export writes the files Power BI loads. fact_shopper and fact_event come from the simulator and are marked simulated. fact_model_score is a sample of held-out predictions when that file exists. The category dimension covers both so a slicer works, and the build guide forbids a relationship between the two facts.</p></div>
+<video controls preload="metadata" src="videos/session-8/01_export.mp4">
+<a href="videos/session-8/01_export.mp4">Download clip 1</a>
+</video>
+<p class="meta">1:27 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/analytics/export.py">src/fit_finder/analytics/export.py</a> on <code>main</code></p>
+</article><article class="clip">
+<h3>2. Session 8 · Measures that stay inside one fact</h3>
+<div class="panel"><p><strong>Architecture.</strong> These measures are the dashboard math. They are text until Neel pastes them into Power BI Desktop. Each ratio uses one fact. Nothing here reaches across fact_model_score and fact_shopper. Publish-to-web is not a measure. It is an account step the build guide marks as blocked.</p></div>
+<video controls preload="metadata" src="videos/session-8/02_dax.mp4">
+<a href="videos/session-8/02_dax.mp4">Download clip 2</a>
+</video>
+<p class="meta">1:04 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/analytics/powerbi/measures.dax">analytics/powerbi/measures.dax</a> on <code>main</code></p>
+</article>
+<h2>How this session connects</h2>
+<div class="prose"><p>export.py writes two facts that must not be joined to each other. fact_model_score is a held-out sample. fact_shopper and fact_event are simulated. The DAX measures divide inside one fact. The category dimension covers both, so a category slicer does not mean the rows are the same people.</p></div>
+<h2>Code on main</h2>
+<ul><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/analytics/export.py"><code>src/fit_finder/analytics/export.py</code></a></li><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/analytics/powerbi/measures.dax"><code>analytics/powerbi/measures.dax</code></a></li></ul>
+<h2>Practice</h2>
+<div class="prose"><p>Explain why a relationship from fact_model_score to fact_shopper would invent a finding. One paragraph.</p></div>
+<h2>Quiz</h2>
+<p class="note">Eight questions. 80% to pass, which means 7 of 8. The questions are about boundaries and tradeoffs. Explanations show after you submit. The salted hash is a self-study speed bump, not protection.</p>
+<div id="quiz"></div>
+</div>
+
+</main>
+</div>
+<script src="js/site-config.js"></script>
+<script src="js/quiz-data.js"></script>
+<script src="js/academy.js"></script>
+</body>
+</html>

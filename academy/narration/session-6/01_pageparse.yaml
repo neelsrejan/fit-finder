@@ -1,0 +1,25 @@
+title: Session 6 · The page contract, tested without Chrome
+file: src/fit_finder/pageparse.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: 'This parser is the test double for the content script. Both read the same
+    attributes on a demo page: product id, category, price, colors, size-chart rows,
+    and the selected size. CI can check the fixture HTML without launching a browser.
+    The parser does not fetch URLs.'
+segments:
+- lines: 1-17
+  say: 'The docstring lists the contract and points at the manifest test. That test
+    is the other half of the boundary: even a correct parser would be the wrong product
+    if the content script ran on a retailer host.'
+- lines: 19-55
+  say: The HTML parser records product attributes when it sees article.product. Colors
+    split on commas. A size-chart row with data-size starts a size record. The select
+    with id size-select is the only control treated as the shopper's choice. Title
+    text is the h1 with class product-title.
+- lines: 56-103
+  say: End tags close the cells and the row. A selected option wins. If nothing is
+    marked selected, the first option remains, which matches a normal select. parse_product_html
+    feeds the string and returns the dict the tests assert against the demo page and
+    the saved top fixture.

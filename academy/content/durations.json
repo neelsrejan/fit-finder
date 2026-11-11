@@ -1,0 +1,22 @@
+{
+  "session-1/01_config": 96.98,
+  "session-1/02_ci": 73.48,
+  "session-2/01_clean": 91.7,
+  "session-2/02_download": 50.71,
+  "session-3/01_features": 84.06,
+  "session-3/02_train": 105.81,
+  "session-4/01_rank": 75.86,
+  "session-4/02_evaluate": 72.66,
+  "session-5/01_schemas": 71.35,
+  "session-5/02_app": 78.3,
+  "session-6/01_pageparse": 68.71,
+  "session-6/02_content": 89.91,
+  "session-7/01_ab": 81.89,
+  "session-7/02_power": 57.82,
+  "session-8/01_export": 87.42,
+  "session-8/02_dax": 64.49,
+  "session-9/01_adapter": 87.89,
+  "session-9/02_cf": 76.46,
+  "session-10/01_model_card": 85.27,
+  "session-10/02_eval_report": 63.11
+}
