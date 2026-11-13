@@ -8,9 +8,11 @@ Quizzes are about boundaries and tradeoffs. They do not ask for syntax or line n
 
 ## Study
 
-The Pages workflow (`.github/workflows/pages.yml`) renders the videos and deploys the site. The URL, once Pages is set to GitHub Actions, is `https://neelsrejan.github.io/fit-finder/`.
+The Pages workflow (`.github/workflows/pages.yml`) uploads `academy/site`, including the walkthrough MP4s. It does not re-render them. GitHub-hosted runners do not ship ffmpeg, and the speech service is not reliable there. Re-render locally when the narration changes, commit the new MP4s under `academy/site/videos/`, and let the workflow publish them.
 
-If that setting is still off: Settings → Pages → Build and deployment → GitHub Actions.
+The URL, once Pages is set to GitHub Actions, is `https://neelsrejan.github.io/fit-finder/`.
+
+If that setting is still off: Settings → Pages → Build and deployment → GitHub Actions. The first deploy fails with a Pages 404 until that source is selected.
 
 Locally, after a render:
 
@@ -21,7 +23,7 @@ python3 academy/scripts/build_site.py
 python3 -m http.server -d academy/site 8765
 ```
 
-Videos are gitignored on `main`. The workflow uploads them with the site. Clip durations live in `academy/content/durations.json` after a render, so a later `build_site.py` can rebuild the HTML without the MP4s. CI runs that script and fails if `academy/site/` or `academy/content/QUIZ_ANSWERS.md` drift.
+The MP4s are committed under `academy/site/videos/`. Clip durations live in `academy/content/durations.json`. CI runs `build_site.py` and fails if `academy/site/` HTML or `academy/content/QUIZ_ANSWERS.md` drift. The video files are not rewritten by that script.
 
 `academy/content/bank.py` is the authoring copy. The build shuffles the four choices and writes a salted SHA-256 of the published letter. That hash is a self-study speed bump, not protection.
 
