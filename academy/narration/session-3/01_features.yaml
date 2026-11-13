@@ -1,0 +1,28 @@
+title: Session 3 · History that cannot see the label
+file: src/fit_finder/model/features.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: Feature construction is where leakage would enter. Item rates and the shopper's
+    past mix are allowed because a returning shopper and a known item have that history.
+    The row being scored does not contribute its own fit label. Length, quality, and
+    review text are not in the feature list at all.
+segments:
+- lines: 1-31
+  say: The module docstring states the rule. NUMERIC_FEATURES and CATEGORICAL_FEATURES
+    are the contract the preprocessor and the scorer share. If a column is not in
+    these tuples, the model cannot see it, even if the review table stored it. Rating
+    is stored and absent here on purpose.
+- lines: 51-88
+  say: Leave-one-out user features subtract the current row's class from that user's
+    train counts. The same pattern is applied to items. A shopper with one training
+    review therefore gets a history count of zero on that row. Validation and test
+    do not use this function. They join the full training aggregate, which does not
+    contain them.
+- lines: 156-189
+  say: add_features takes an explicit leave_one_out flag. The training call sets it
+    true. The validation and test calls set it false and pass the training frame as
+    the history source. item_median_fit_size falls back from the item, to the category,
+    to the global median of fit reviews. size_vs_item_median is the ordered size minus
+    that reference. That gap is a feature. It is not yet a size recommendation.

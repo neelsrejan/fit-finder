@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 5 · A local API with three routes</title>
+<link rel="stylesheet" href="css/academy.css">
+
+<script>
+(function () {
+  var session = 5;
+  var ok = false;
+  try {
+    var raw = localStorage.getItem("ff-academy-progress-v1");
+    var data = raw ? JSON.parse(raw) : null;
+    var prev = data && data.sessions && data.sessions[String(session - 1)];
+    ok = !!(prev && prev.passed);
+  } catch (e) { ok = false; }
+  if (!ok) document.documentElement.classList.add("is-locked");
+})();
+</script>
+</head>
+<body data-page="session" data-session="5">
+<div class="app">
+<aside class="nav">
+<a class="brand" href="index.html"><div class="mark">ff</div><div><strong>fit-finder</strong><span>Learning site</span></div></a>
+<a class="item" href="index.html">Home</a>
+<div class="week">Sprint 1</div>
+<a class="item" data-session="1" href="session-1.html"><i class="dot"></i>S1 · PRD, skeleton, and a CI job with no secrets</a>
+<a class="item" data-session="2" href="session-2.html"><i class="dot"></i>S2 · Two review files, one table</a>
+<a class="item" data-session="3" href="session-3.html"><i class="dot"></i>S3 · A baseline, two learners, and a calibration split</a>
+<div class="week">Sprint 2</div>
+<a class="item" data-session="4" href="session-4.html"><i class="dot"></i>S4 · Rank items by fit rate, not by a guessed price</a>
+<a class="item active" data-session="5" href="session-5.html"><i class="dot"></i>S5 · A local API with three routes</a>
+<a class="item" data-session="6" href="session-6.html"><i class="dot"></i>S6 · An extension that can only see the demo store</a>
+<a class="item" data-session="7" href="session-7.html"><i class="dot"></i>S7 · A simulated experiment with the knobs written down</a>
+<div class="week">Sprint 3</div>
+<a class="item" data-session="8" href="session-8.html"><i class="dot"></i>S8 · Extracts, a star schema, and DAX</a>
+<a class="item" data-session="9" href="session-9.html"><i class="dot"></i>S9 · An H&amp;M adapter that refuses to download</a>
+<a class="item" data-session="10" href="session-10.html"><i class="dot"></i>S10 · Numbers that come from the scripts</a>
+<div class="nav-foot" id="nav-progress">Progress stays in this browser</div>
+</aside>
+<main class="main">
+
+<p class="kicker">Sprint 2 · Session 5</p>
+<h1>A local API with three routes</h1>
+<p class="lede">The service is a thin edge. It validates bodies, loads the bundle, and appends events. It does not retrain.</p>
+<p class="note">About 40–55 minutes · artifact: OpenAPI docs and a Dockerfile</p>
+<div class="lock-screen">
+  <div class="panel">
+    <h2>This session is locked</h2>
+    <p>Pass Session 4 at 80% or better to open the videos and this quiz. Retries on the earlier quiz are unlimited. If you already passed it on another computer, import that progress code from the home page.</p>
+    <p><a class="button" href="session-4.html">Go to Session 4</a> <a class="button secondary" href="index.html">Home</a></p>
+  </div>
+</div>
+<div class="lesson">
+<h2>Read first</h2>
+<ul><li>Start fit-finder-api and open /docs.</li><li>Dockerfile — the image copies the package and the model files, not data/raw.</li></ul>
+<h2>Watch in this order</h2>
+<p class="note">Each clip opens with what the file is responsible for, then walks the lines. The line numbers match <code>main</code>.</p>
+<article class="clip">
+<h3>1. Session 5 · The contract on the wire</h3>
+<div class="panel"><p><strong>Architecture.</strong> Schemas are the product surface. The model code can change internals, but a client of predict-size, recommend, or events depends on these bodies. OpenAPI is generated from them. A missing size is a 422, not a guessed size.</p></div>
+<video controls preload="metadata" src="videos/session-5/01_schemas.mp4">
+<a href="videos/session-5/01_schemas.mp4">Download clip 1</a>
+</video>
+<p class="meta">1:11 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/api/schemas.py">src/fit_finder/api/schemas.py</a> on <code>main</code></p>
+</article><article class="clip">
+<h3>2. Session 5 · Three routes and a frozen bundle</h3>
+<div class="panel"><p><strong>Architecture.</strong> The app is the edge. It loads the joblib bundle and the catalog once, validates bodies, and delegates. It does not train, it does not download, and it does not run the simulated experiment. Health reports the two blocked account steps so a reader of the docs page can see them.</p></div>
+<video controls preload="metadata" src="videos/session-5/02_app.mp4">
+<a href="videos/session-5/02_app.mp4">Download clip 2</a>
+</video>
+<p class="meta">1:18 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/api/app.py">src/fit_finder/api/app.py</a> on <code>main</code></p>
+</article>
+<h2>How this session connects</h2>
+<div class="prose"><p>schemas.py is the contract. app.py loads the bundle and the catalog at startup and returns 503 if a file is missing. /events writes a real local request and marks simulated false. The simulated experiment does not use this route.</p></div>
+<h2>Code on main</h2>
+<ul><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/api/schemas.py"><code>src/fit_finder/api/schemas.py</code></a></li><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/api/app.py"><code>src/fit_finder/api/app.py</code></a></li></ul>
+<h2>Practice</h2>
+<div class="prose"><p>Trace one size request from the pydantic body to predict_one. Name the field that would start meaning a tape-measure bust if someone merged it with the bra band.</p></div>
+<h2>Quiz</h2>
+<p class="note">Eight questions. 80% to pass, which means 7 of 8. The questions are about boundaries and tradeoffs. Explanations show after you submit. The salted hash is a self-study speed bump, not protection.</p>
+<div id="quiz"></div>
+</div>
+
+</main>
+</div>
+<script src="js/site-config.js"></script>
+<script src="js/quiz-data.js"></script>
+<script src="js/academy.js"></script>
+</body>
+</html>

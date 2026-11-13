@@ -1,0 +1,22 @@
+{
+  "simulated": true,
+  "n_shoppers": 8000,
+  "seed": 7,
+  "return_rate_no_recs": 0.32875,
+  "return_rate_recs": 0.27075,
+  "lift_pp": 5.8,
+  "ctr_recs": 0.11775,
+  "illustrative_dollars": 4639.999999999999,
+  "assumed_cost_per_return": 20.0,
+  "sample_size_per_arm_for_2pp": 8518,
+  "alpha": 0.05,
+  "power": 0.8,
+  "assumptions": {
+    "p_order_too_small": 0.18,
+    "p_order_too_large": 0.14,
+    "p_accept_recommendation": 0.35,
+    "p_policy_right_about_direction": 0.6,
+    "p_label_noise": 0.05,
+    "p_click_given_impression": 0.12
+  }
+}

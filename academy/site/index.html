@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fit-finder learning site</title>
+<link rel="stylesheet" href="css/academy.css">
+
+</head>
+<body data-page="home" data-session="0">
+<div class="app">
+<aside class="nav">
+<a class="brand" href="index.html"><div class="mark">ff</div><div><strong>fit-finder</strong><span>Learning site</span></div></a>
+<a class="item active" href="index.html">Home</a>
+<div class="week">Sprint 1</div>
+<a class="item" data-session="1" href="session-1.html"><i class="dot"></i>S1 · PRD, skeleton, and a CI job with no secrets</a>
+<a class="item" data-session="2" href="session-2.html"><i class="dot"></i>S2 · Two review files, one table</a>
+<a class="item" data-session="3" href="session-3.html"><i class="dot"></i>S3 · A baseline, two learners, and a calibration split</a>
+<div class="week">Sprint 2</div>
+<a class="item" data-session="4" href="session-4.html"><i class="dot"></i>S4 · Rank items by fit rate, not by a guessed price</a>
+<a class="item" data-session="5" href="session-5.html"><i class="dot"></i>S5 · A local API with three routes</a>
+<a class="item" data-session="6" href="session-6.html"><i class="dot"></i>S6 · An extension that can only see the demo store</a>
+<a class="item" data-session="7" href="session-7.html"><i class="dot"></i>S7 · A simulated experiment with the knobs written down</a>
+<div class="week">Sprint 3</div>
+<a class="item" data-session="8" href="session-8.html"><i class="dot"></i>S8 · Extracts, a star schema, and DAX</a>
+<a class="item" data-session="9" href="session-9.html"><i class="dot"></i>S9 · An H&amp;M adapter that refuses to download</a>
+<a class="item" data-session="10" href="session-10.html"><i class="dot"></i>S10 · Numbers that come from the scripts</a>
+<div class="nav-foot" id="nav-progress">Progress stays in this browser</div>
+</aside>
+<main class="main">
+
+<p class="kicker">Size and fit · ten sessions · one tree on main</p>
+<h1>Learn fit-finder, session by session.</h1>
+<p class="lede">A portfolio prototype for apparel fit, narrated against the code that builds it. Held-out fit metrics come from the public UCSD reviews. Shopper traffic in the project is simulated. Quizzes ask why the boundaries exist.</p>
+<div class="progress-row">
+  <div class="ring" data-progress style="--p:0"><span id="ring-label">0/10</span></div>
+  <div>
+    <strong id="progress-label">0 of 10 sessions passed</strong>
+    <div class="bar" data-progress style="--p:0"><i></i></div>
+    <p class="note" id="progress-detail">Pass a quiz at 80% or better to open the next session. Retries are unlimited.</p>
+    <p class="note" id="lock-note"></p>
+  </div>
+</div>
+<div class="cards">
+  <a class="link-card" id="link-github" href="https://github.com/neelsrejan/fit-finder"><div class="label">Repository</div><strong>GitHub</strong><p>neelsrejan/fit-finder. The code on screen is main.</p></a>
+  <a class="link-card" href="https://github.com/neelsrejan/fit-finder/blob/main/analytics/powerbi/BUILD.md"><div class="label">Dashboard</div><strong>Power BI guide</strong><p>Extracts and DAX are in the repo. The .pbix is built on Windows.</p></a>
+  <a class="link-card" href="https://github.com/neelsrejan/fit-finder/blob/main/docs/DEMO.md"><div class="label">Demo</div><strong>Local API and demo store</strong><p>The extension does not run on retailer sites.</p></a>
+</div>
+<h2>How to run it locally</h2>
+<div class="panel">
+<pre>python -m pip install -e ".[dev]"
+python -m pytest
+fit-finder-api</pre>
+<p class="note">Practice notes stay in your own scratch file. Do not widen the extension manifest.</p>
+</div>
+<h2>Sessions</h2>
+<div class="session-grid">
+<a class="session-card" data-session="1" href="session-1.html">
+<div class="num">01</div>
+<div><h3>PRD, skeleton, and a CI job with no secrets</h3>
+<div class="meta">Sprint 1 · 45–60 min · Green pytest, PRD, backlog</div></div>
+<div class="pill">Open</div>
+</a><a class="session-card" data-session="2" href="session-2.html">
+<div class="num">02</div>
+<div><h3>Two review files, one table</h3>
+<div class="meta">Sprint 1 · 50–70 min · Cleaned schema and a data card</div></div>
+<div class="pill">Open</div>
+</a><a class="session-card" data-session="3" href="session-3.html">
+<div class="num">03</div>
+<div><h3>A baseline, two learners, and a calibration split</h3>
+<div class="meta">Sprint 1 · 60–80 min · Model card from held-out metrics</div></div>
+<div class="pill">Open</div>
+</a><a class="session-card" data-session="4" href="session-4.html">
+<div class="num">04</div>
+<div><h3>Rank items by fit rate, not by a guessed price</h3>
+<div class="meta">Sprint 2 · 45–60 min · Offline hit rate</div></div>
+<div class="pill">Open</div>
+</a><a class="session-card" data-session="5" href="session-5.html">
+<div class="num">05</div>
+<div><h3>A local API with three routes</h3>
+<div class="meta">Sprint 2 · 40–55 min · OpenAPI docs and a Dockerfile</div></div>
+<div class="pill">Open</div>
+</a><a class="session-card" data-session="6" href="session-6.html">
+<div class="num">06</div>
+<div><h3>An extension that can only see the demo store</h3>
+<div class="meta">Sprint 2 · 40–55 min · Unpacked extension and a parser test</div></div>
+<div class="pill">Open</div>
+</a><a class="session-card" data-session="7" href="session-7.html">
+<div class="num">07</div>
+<div><h3>A simulated experiment with the knobs written down</h3>
+<div class="meta">Sprint 2 · 45–60 min · A/B readout marked simulated</div></div>
+<div class="pill">Open</div>
+</a><a class="session-card" data-session="8" href="session-8.html">
+<div class="num">08</div>
+<div><h3>Extracts, a star schema, and DAX</h3>
+<div class="meta">Sprint 3 · 40–55 min · Power BI build guide, no .pbix yet</div></div>
+<div class="pill">Open</div>
+</a><a class="session-card" data-session="9" href="session-9.html">
+<div class="num">09</div>
+<div><h3>An H&amp;M adapter that refuses to download</h3>
+<div class="meta">Sprint 3 · 40–55 min · Fixture comparison, Kaggle path closed</div></div>
+<div class="pill">Open</div>
+</a><a class="session-card" data-session="10" href="session-10.html">
+<div class="num">10</div>
+<div><h3>Numbers that come from the scripts</h3>
+<div class="meta">Sprint 3 · 35–50 min · Eval report, resume bullets, this site</div></div>
+<div class="pill">Open</div>
+</a>
+</div>
+<h2>Move progress between computers</h2>
+<div class="panel">
+<p>Quiz scores live in this browser's localStorage. Export a code, and paste it on the other machine. The code is a checksummed copy of your scores, not an account.</p>
+<div class="row">
+  <button type="button" id="export-btn">Export progress</button>
+  <button type="button" class="secondary" id="reset-btn">Clear this browser</button>
+</div>
+<textarea id="export-code" rows="3" readonly placeholder="Your code appears here"></textarea>
+<label for="import-code">Paste a code from your other computer</label>
+<textarea id="import-code" rows="3" placeholder="FF1...."></textarea>
+<div class="row"><button type="button" id="import-btn">Import progress</button></div>
+<p class="note" id="transfer-msg"></p>
+</div>
+
+</main>
+</div>
+<script src="js/site-config.js"></script>
+<script src="js/quiz-data.js"></script>
+<script src="js/academy.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+title: Session 9 · Item-item similarity on purchases
+file: src/fit_finder/hm/cf.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: Collaborative filtering here is cosine similarity of item buyer vectors, scored
+    on the synthetic transactions. It answers whether a held-out purchase is near
+    the items that shopper already bought. It does not see fit labels. compare.py
+    runs it next to the session four ranker on the same fixture and labels both as
+    simulated_fixture.
+segments:
+- lines: 1-30
+  say: The docstring defines the score as an average of similarities to owned items,
+    using training transactions only. The matrix is a binary user-by-item grid. cosine_item_item
+    normalizes columns and multiplies. Empty columns are guarded so a never-bought
+    item does not divide by zero.
+- lines: 32-56
+  say: rank_for_user adds the similarity rows of the owned items and then masks those
+    items to negative infinity so the list does not recommend what the shopper already
+    bought. The result is an ordered list of item ids, cut at the limit.
+- lines: 58-87
+  say: leave_one_out_hit_rate holds out each user's last transaction, builds similarity
+    on the rest, and asks whether the held-out item is inside k. The returned dict
+    includes method and simulated_fixture true. That flag is how the eval report keeps
+    this hit rate out of the UCSD section.

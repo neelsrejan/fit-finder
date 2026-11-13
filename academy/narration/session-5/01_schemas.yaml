@@ -1,0 +1,25 @@
+title: Session 5 · The contract on the wire
+file: src/fit_finder/api/schemas.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: Schemas are the product surface. The model code can change internals, but a
+    client of predict-size, recommend, or events depends on these bodies. OpenAPI
+    is generated from them. A missing size is a 422, not a guessed size.
+segments:
+- lines: 1-26
+  say: SizeRequest requires a category and a size_index. Measurements are optional
+    because many shoppers, and the ModCloth rows, do not have them. The history fields
+    are optional too. An unknown shopper leaves them empty and the scorer fills zeros,
+    which is the cold start.
+- lines: 27-46
+  say: 'SizeResponse is what the panel prints: the class, the confidence, the three
+    probabilities, the ordered size, the recommended size, and a note. RecommendRequest
+    caps limit so a client cannot ask for the whole catalog in one call. Price is
+    documented as optional and illustrative.'
+- lines: 48-77
+  say: RecommendItem echoes the catalog columns the ranker computed, including price_filter,
+    so the client can show that a price was not an item attribute. EventRequest limits
+    event_type and arm to known strings. EventResponse carries simulated, which this
+    route sets false because the post really arrived.

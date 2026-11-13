@@ -1,0 +1,26 @@
+title: Session 4 · Hit rate on held-out fit reviews
+file: src/fit_finder/recommend/evaluate.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: The offline metric asks a retrieval question. Take a held-out review that said
+    the item fit. Hide that item among random other items in the same category. Did
+    the ranker put it in the top ten? This is not a shopper experiment and it does
+    not use the simulated arms.
+segments:
+- lines: 1-16
+  say: The docstring names the positive and the candidate set. A reader who swaps
+    the positive to small or large has changed the question. The label string in the
+    returned dict is what the eval report prints, so the definition travels with the
+    number.
+- lines: 18-45
+  say: The catalog is rebuilt from the reviews passed in, which for the real run is
+    the full cleaned table and for tests is the synthetic fixture. Positives are fit
+    rows. A fixed seed draws a capped number of queries so the metric is rerunnable.
+    Categories with a single item are skipped because there is no ranking to do.
+- lines: 46-70
+  say: Each query samples negatives from the same category, keeps the positive, and
+    calls the same rank_items the API uses. Hit rate is one if the positive is inside
+    k. Reciprocal rank feeds MRR. The returned dict includes k, the negative count,
+    and n, so the report cannot quote a hit rate without the sample size.

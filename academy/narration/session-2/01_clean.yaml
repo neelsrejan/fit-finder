@@ -1,0 +1,30 @@
+title: Session 2 · One schema, two sources
+file: src/fit_finder/data/clean.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: This file is the boundary between research dumps and the model. Rent the Runway
+    and ModCloth arrive as different JSON shapes. Everything after this module speaks
+    REVIEW_COLUMNS. Review text, names, length, and quality stop here so a later feature
+    cannot quietly use an outcome.
+segments:
+- lines: 142-169
+  say: The Rent the Runway mapper requires a fit label, a numeric size, a user, and
+    an item. Bust size is split into a bra band and a cup, not treated as a tape measure.
+    Category and body type are lowercased. The review text is never copied into the
+    record. The user id is prefixed with the source so a shared numeric id cannot
+    glue two people together.
+- lines: 171-205
+  say: ModCloth has no weight, no age, no body type, and no review date. Those fields
+    stay empty instead of being invented. Quality is stored on the rating column and
+    the comment in the mapper says it is not a model feature. Length is another post-purchase
+    judgment and it is dropped. The bust measurement on ModCloth is not mixed into
+    the bra band, because the two sources would then mean different things by one
+    column.
+- lines: 207-241
+  say: load_source walks JSON lines and skips blank or bracket lines. combine stacks
+    the frames and rewrites row_id so later sorts have a stable tie break. clean_directory
+    only reads files that exist, which is why the synthetic fixture can exercise the
+    model without this function. write_parquet is the handoff to training, and that
+    file is gitignored.

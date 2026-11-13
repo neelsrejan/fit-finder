@@ -1,0 +1,28 @@
+title: Session 8 · Two facts that must not be joined
+file: src/fit_finder/analytics/export.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: Export writes the files Power BI loads. fact_shopper and fact_event come from
+    the simulator and are marked simulated. fact_model_score is a sample of held-out
+    predictions when that file exists. The category dimension covers both so a slicer
+    works, and the build guide forbids a relationship between the two facts.
+segments:
+- lines: 1-32
+  say: The docstring states the two grains. build_extracts always reruns the simulator,
+    so the CSVs are a function of the seed rather than a hand edit. Dates are spread
+    across March 2024 so a date table exists. The comment says the date is not an
+    observed session time. illustrative_return_cost is the boolean return times the
+    assumed unit cost.
+- lines: 34-68
+  say: Each shopper becomes an impression. Treatment shoppers also get a recommendation
+    impression. Clicks become their own rows. CTR in DAX divides clicks by recommendation
+    impressions, which is why the event grain exists. Putting both counts on the shopper
+    row would make the ratio harder to defend.
+- lines: 70-105
+  say: dim_date is the distinct simulated dates. Categories start as the simulator's
+    categories and then union the held-out score categories, so gown can slice the
+    model fact without a fake shopper in that category. assumptions.csv is one row,
+    the unit cost, with a note that it is not from either dataset. summary.json repeats
+    the simulated flag for people reading the folder.

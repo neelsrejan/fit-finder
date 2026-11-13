@@ -1,0 +1,8 @@
+{
+  "hit_rate": 0.34880803011292344,
+  "mrr": 0.1367390609685664,
+  "n": 797,
+  "k": 10,
+  "negatives": 49,
+  "label": "held-out fit review ranked among same-category items"
+}

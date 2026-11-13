@@ -1,0 +1,20 @@
+title: Session 2 · Download without committing
+file: src/fit_finder/data/download.py
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: This module is the only network path for the UCSD files. It is not imported
+    by the model. CI never calls it. The URLs are the current McAuley Lab links, not
+    the commented-out deepx hosts on the same page. The gzip files land in data/raw
+    and stay out of git.
+segments:
+- lines: 1-19
+  say: The docstring points at the lab page. SOURCES maps a short name to a URL. FILENAMES
+    are the names the cleaner looks for. Keeping both dicts here means a URL change
+    does not require a hunt through the trainer.
+- lines: 21-41
+  say: download skips the network when the file is already present, unless force is
+    set. The bytes land in a .part file and are renamed only after the retrieve returns,
+    so a failed download does not look like a finished dump. download_all is the convenience
+    wrapper the metrics script uses when the parquet is missing.

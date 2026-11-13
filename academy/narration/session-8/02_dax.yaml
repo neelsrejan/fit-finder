@@ -1,0 +1,22 @@
+title: Session 8 · Measures that stay inside one fact
+file: analytics/powerbi/measures.dax
+voice: en-US-AndrewNeural
+rate: +0%
+pause: 0.4
+overview:
+  say: These measures are the dashboard math. They are text until Neel pastes them
+    into Power BI Desktop. Each ratio uses one fact. Nothing here reaches across fact_model_score
+    and fact_shopper. Publish-to-web is not a measure. It is an account step the build
+    guide marks as blocked.
+segments:
+- lines: 1-16
+  say: The header says the names match the extracts. Recommendation CTR divides click
+    rows by recommendation impression rows. Return Rate divides returned shoppers
+    by shoppers. Both use CALCULATE so a slicer on arm or category can narrow them.
+    DIVIDE returns blank instead of an error when the denominator is empty.
+- lines: 18-36
+  say: The two arm-specific return rates and Simulated Lift PP are differences of
+    those measures. Illustrative Return Cost sums the cost column that export already
+    multiplied by the assumption. Fit Accuracy and Mean Confidence read only fact_model_score.
+    A visual that puts Fit Accuracy next to Return Rate without a simulated label
+    is a build-guide failure, not a DAX failure.

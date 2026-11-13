@@ -1,0 +1,136 @@
+{
+  "chosen_model": "logistic",
+  "selection_rule": "lowest validation log loss after calibration",
+  "split_counts": {
+    "train": 197419,
+    "val": 38835,
+    "test": 39080
+  },
+  "validation": {
+    "majority": {
+      "log_loss": 0.7858366839146275,
+      "accuracy": 0.7207158491051886,
+      "macro_f1": 0.2792310148050601,
+      "n": 38835
+    },
+    "logistic": {
+      "log_loss": 0.6866322320593528,
+      "accuracy": 0.7297540878073903,
+      "macro_f1": 0.3753781732927972,
+      "n": 38835
+    },
+    "lightgbm": {
+      "log_loss": 0.6996313240219771,
+      "accuracy": 0.7225183468520664,
+      "macro_f1": 0.3006046469634797,
+      "n": 38835
+    }
+  },
+  "test": {
+    "majority": {
+      "log_loss": 0.7903777431110773,
+      "accuracy": 0.7179631525076766,
+      "macro_f1": 0.2786102257042708,
+      "n": 39080,
+      "ece": 0.005209389142316612
+    },
+    "logistic": {
+      "log_loss": 0.6925222249456201,
+      "accuracy": 0.7285312180143296,
+      "macro_f1": 0.38179436380706844,
+      "n": 39080,
+      "ece": 0.01489295307226188
+    },
+    "lightgbm": {
+      "log_loss": 0.7017403333635073,
+      "accuracy": 0.7216990788126919,
+      "macro_f1": 0.30556530513030894,
+      "n": 39080,
+      "ece": 0.016067477832609468
+    }
+  },
+  "directional_accuracy": 0.1212128966223132,
+  "most_common_size_directional_accuracy": 0.24736438075742068,
+  "per_category": [
+    {
+      "category": "dress",
+      "n": 13065,
+      "accuracy": 0.7403750478377344
+    },
+    {
+      "category": "gown",
+      "n": 5555,
+      "accuracy": 0.7936993699369937
+    },
+    {
+      "category": "bottoms",
+      "n": 3909,
+      "accuracy": 0.693783576362241
+    },
+    {
+      "category": "tops",
+      "n": 2857,
+      "accuracy": 0.6898844942247112
+    },
+    {
+      "category": "sheath",
+      "n": 2766,
+      "accuracy": 0.7570498915401301
+    },
+    {
+      "category": "new",
+      "n": 2048,
+      "accuracy": 0.65771484375
+    },
+    {
+      "category": "outerwear",
+      "n": 1622,
+      "accuracy": 0.6313193588162762
+    },
+    {
+      "category": "dresses",
+      "n": 1550,
+      "accuracy": 0.7341935483870968
+    },
+    {
+      "category": "jumpsuit",
+      "n": 795,
+      "accuracy": 0.7333333333333333
+    },
+    {
+      "category": "top",
+      "n": 772,
+      "accuracy": 0.7215025906735751
+    },
+    {
+      "category": "shift",
+      "n": 708,
+      "accuracy": 0.730225988700565
+    },
+    {
+      "category": "maxi",
+      "n": 532,
+      "accuracy": 0.7913533834586466
+    },
+    {
+      "category": "romper",
+      "n": 439,
+      "accuracy": 0.7494305239179955
+    },
+    {
+      "category": "jacket",
+      "n": 395,
+      "accuracy": 0.7518987341772152
+    },
+    {
+      "category": "sale",
+      "n": 377,
+      "accuracy": 0.6153846153846154
+    }
+  ],
+  "classes": [
+    "small",
+    "fit",
+    "large"
+  ]
+}

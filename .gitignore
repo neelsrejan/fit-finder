@@ -1,0 +1,25 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+.env
+out/
+.DS_Store
+.ipynb_checkpoints/
+
+# Raw UCSD dumps and the full cleaned table stay local.
+data/raw/
+data/processed/
+data/events/
+
+# Academy snapshots and rendered media stay off main.
+# The published site, including MP4s, is what the Pages workflow ships.
+academy/snapshots/
+academy/build/
+academy/site/videos/

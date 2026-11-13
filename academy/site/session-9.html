@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 9 · An H&amp;M adapter that refuses to download</title>
+<link rel="stylesheet" href="css/academy.css">
+
+<script>
+(function () {
+  var session = 9;
+  var ok = false;
+  try {
+    var raw = localStorage.getItem("ff-academy-progress-v1");
+    var data = raw ? JSON.parse(raw) : null;
+    var prev = data && data.sessions && data.sessions[String(session - 1)];
+    ok = !!(prev && prev.passed);
+  } catch (e) { ok = false; }
+  if (!ok) document.documentElement.classList.add("is-locked");
+})();
+</script>
+</head>
+<body data-page="session" data-session="9">
+<div class="app">
+<aside class="nav">
+<a class="brand" href="index.html"><div class="mark">ff</div><div><strong>fit-finder</strong><span>Learning site</span></div></a>
+<a class="item" href="index.html">Home</a>
+<div class="week">Sprint 1</div>
+<a class="item" data-session="1" href="session-1.html"><i class="dot"></i>S1 · PRD, skeleton, and a CI job with no secrets</a>
+<a class="item" data-session="2" href="session-2.html"><i class="dot"></i>S2 · Two review files, one table</a>
+<a class="item" data-session="3" href="session-3.html"><i class="dot"></i>S3 · A baseline, two learners, and a calibration split</a>
+<div class="week">Sprint 2</div>
+<a class="item" data-session="4" href="session-4.html"><i class="dot"></i>S4 · Rank items by fit rate, not by a guessed price</a>
+<a class="item" data-session="5" href="session-5.html"><i class="dot"></i>S5 · A local API with three routes</a>
+<a class="item" data-session="6" href="session-6.html"><i class="dot"></i>S6 · An extension that can only see the demo store</a>
+<a class="item" data-session="7" href="session-7.html"><i class="dot"></i>S7 · A simulated experiment with the knobs written down</a>
+<div class="week">Sprint 3</div>
+<a class="item" data-session="8" href="session-8.html"><i class="dot"></i>S8 · Extracts, a star schema, and DAX</a>
+<a class="item active" data-session="9" href="session-9.html"><i class="dot"></i>S9 · An H&amp;M adapter that refuses to download</a>
+<a class="item" data-session="10" href="session-10.html"><i class="dot"></i>S10 · Numbers that come from the scripts</a>
+<div class="nav-foot" id="nav-progress">Progress stays in this browser</div>
+</aside>
+<main class="main">
+
+<p class="kicker">Sprint 3 · Session 9</p>
+<h1>An H&amp;M adapter that refuses to download</h1>
+<p class="lede">Purchase history is a different question from fit feedback. The real file stays behind an allow flag.</p>
+<p class="note">About 40–55 minutes · artifact: Fixture comparison, Kaggle path closed</p>
+<div class="lock-screen">
+  <div class="panel">
+    <h2>This session is locked</h2>
+    <p>Pass Session 8 at 80% or better to open the videos and this quiz. Retries on the earlier quiz are unlimited. If you already passed it on another computer, import that progress code from the home page.</p>
+    <p><a class="button" href="session-8.html">Go to Session 8</a> <a class="button secondary" href="index.html">Home</a></p>
+  </div>
+</div>
+<div class="lesson">
+<h2>Read first</h2>
+<ul><li>.env.example — the three variables, and the instruction to leave the flag unset.</li><li>docs/EVAL_REPORT.md — the H&amp;M section.</li></ul>
+<h2>Watch in this order</h2>
+<p class="note">Each clip opens with what the file is responsible for, then walks the lines. The line numbers match <code>main</code>.</p>
+<article class="clip">
+<h3>1. Session 9 · A source interface with the socket closed</h3>
+<div class="panel"><p><strong>Architecture.</strong> Purchase history sits behind PurchaseHistorySource so the rankers do not import Kaggle. SyntheticHMSource is what tests and the comparison run. KaggleHMSource only maps files that are already on disk. download_kaggle is the env-var path, and it raises unless the allow flag and both secrets are set. This build does not call it.</p></div>
+<video controls preload="metadata" src="videos/session-9/01_adapter.mp4">
+<a href="videos/session-9/01_adapter.mp4">Download clip 1</a>
+</video>
+<p class="meta">1:28 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/hm/adapter.py">src/fit_finder/hm/adapter.py</a> on <code>main</code></p>
+</article><article class="clip">
+<h3>2. Session 9 · Item-item similarity on purchases</h3>
+<div class="panel"><p><strong>Architecture.</strong> Collaborative filtering here is cosine similarity of item buyer vectors, scored on the synthetic transactions. It answers whether a held-out purchase is near the items that shopper already bought. It does not see fit labels. compare.py runs it next to the session four ranker on the same fixture and labels both as simulated_fixture.</p></div>
+<video controls preload="metadata" src="videos/session-9/02_cf.mp4">
+<a href="videos/session-9/02_cf.mp4">Download clip 2</a>
+</video>
+<p class="meta">1:16 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/hm/cf.py">src/fit_finder/hm/cf.py</a> on <code>main</code></p>
+</article>
+<h2>How this session connects</h2>
+<div class="prose"><p>PurchaseHistorySource has a synthetic implementation and a Kaggle implementation. download_kaggle raises unless the allow flag and both secrets are set. compare.py scores content ranking and item-item cosine on the fixture only. The planted preference is disclosed.</p></div>
+<h2>Code on main</h2>
+<ul><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/hm/adapter.py"><code>src/fit_finder/hm/adapter.py</code></a></li><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/hm/cf.py"><code>src/fit_finder/hm/cf.py</code></a></li></ul>
+<h2>Practice</h2>
+<div class="prose"><p>Say what would be true, and what would still be false, on the day the Kaggle file lands. The fit model does not automatically become a purchase model.</p></div>
+<h2>Quiz</h2>
+<p class="note">Eight questions. 80% to pass, which means 7 of 8. The questions are about boundaries and tradeoffs. Explanations show after you submit. The salted hash is a self-study speed bump, not protection.</p>
+<div id="quiz"></div>
+</div>
+
+</main>
+</div>
+<script src="js/site-config.js"></script>
+<script src="js/quiz-data.js"></script>
+<script src="js/academy.js"></script>
+</body>
+</html>

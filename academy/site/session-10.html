@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 10 · Numbers that come from the scripts</title>
+<link rel="stylesheet" href="css/academy.css">
+
+<script>
+(function () {
+  var session = 10;
+  var ok = false;
+  try {
+    var raw = localStorage.getItem("ff-academy-progress-v1");
+    var data = raw ? JSON.parse(raw) : null;
+    var prev = data && data.sessions && data.sessions[String(session - 1)];
+    ok = !!(prev && prev.passed);
+  } catch (e) { ok = false; }
+  if (!ok) document.documentElement.classList.add("is-locked");
+})();
+</script>
+</head>
+<body data-page="session" data-session="10">
+<div class="app">
+<aside class="nav">
+<a class="brand" href="index.html"><div class="mark">ff</div><div><strong>fit-finder</strong><span>Learning site</span></div></a>
+<a class="item" href="index.html">Home</a>
+<div class="week">Sprint 1</div>
+<a class="item" data-session="1" href="session-1.html"><i class="dot"></i>S1 · PRD, skeleton, and a CI job with no secrets</a>
+<a class="item" data-session="2" href="session-2.html"><i class="dot"></i>S2 · Two review files, one table</a>
+<a class="item" data-session="3" href="session-3.html"><i class="dot"></i>S3 · A baseline, two learners, and a calibration split</a>
+<div class="week">Sprint 2</div>
+<a class="item" data-session="4" href="session-4.html"><i class="dot"></i>S4 · Rank items by fit rate, not by a guessed price</a>
+<a class="item" data-session="5" href="session-5.html"><i class="dot"></i>S5 · A local API with three routes</a>
+<a class="item" data-session="6" href="session-6.html"><i class="dot"></i>S6 · An extension that can only see the demo store</a>
+<a class="item" data-session="7" href="session-7.html"><i class="dot"></i>S7 · A simulated experiment with the knobs written down</a>
+<div class="week">Sprint 3</div>
+<a class="item" data-session="8" href="session-8.html"><i class="dot"></i>S8 · Extracts, a star schema, and DAX</a>
+<a class="item" data-session="9" href="session-9.html"><i class="dot"></i>S9 · An H&amp;M adapter that refuses to download</a>
+<a class="item active" data-session="10" href="session-10.html"><i class="dot"></i>S10 · Numbers that come from the scripts</a>
+<div class="nav-foot" id="nav-progress">Progress stays in this browser</div>
+</aside>
+<main class="main">
+
+<p class="kicker">Sprint 3 · Session 10</p>
+<h1>Numbers that come from the scripts</h1>
+<p class="lede">The resume bullets are generated from the JSON metrics. A hand-edited digit would drift, and the wording stays plain.</p>
+<p class="note">About 35–50 minutes · artifact: Eval report, resume bullets, this site</p>
+<div class="lock-screen">
+  <div class="panel">
+    <h2>This session is locked</h2>
+    <p>Pass Session 9 at 80% or better to open the videos and this quiz. Retries on the earlier quiz are unlimited. If you already passed it on another computer, import that progress code from the home page.</p>
+    <p><a class="button" href="session-9.html">Go to Session 9</a> <a class="button secondary" href="index.html">Home</a></p>
+  </div>
+</div>
+<div class="lesson">
+<h2>Read first</h2>
+<ul><li>docs/RESUME_BULLETS.md</li><li>docs/EVAL_REPORT.md</li></ul>
+<h2>Watch in this order</h2>
+<p class="note">Each clip opens with what the file is responsible for, then walks the lines. The line numbers match <code>main</code>.</p>
+<article class="clip">
+<h3>1. Session 10 · The card is a formatter</h3>
+<div class="panel"><p><strong>Architecture.</strong> The report module does not train and does not simulate. It reads JSON that other scripts wrote and formats sentences around those digits. That is why a resume bullet cannot drift from the model card unless someone edits the prose template. The size-search loss is hard-coded as a sentence because the comparison is part of the result, not an optional footnote.</p></div>
+<video controls preload="metadata" src="videos/session-10/01_model_card.mp4">
+<a href="videos/session-10/01_model_card.mp4">Download clip 1</a>
+</video>
+<p class="meta">1:25 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/eval/render.py">src/fit_finder/eval/render.py</a> on <code>main</code></p>
+</article><article class="clip">
+<h3>2. Session 10 · Four sections, two kinds of number</h3>
+<div class="panel"><p><strong>Architecture.</strong> The eval report is the single page a hiring manager can read after the model card. It keeps held-out fit metrics, the content ranker, the simulated experiment, and the blocked H and M comparison in separate sections. The function refuses to compute a new number. If a figure is not in the JSON, it cannot appear.</p></div>
+<video controls preload="metadata" src="videos/session-10/02_eval_report.mp4">
+<a href="videos/session-10/02_eval_report.mp4">Download clip 2</a>
+</video>
+<p class="meta">1:03 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/eval/render.py">src/fit_finder/eval/render.py</a> on <code>main</code></p>
+</article>
+<h2>How this session connects</h2>
+<div class="prose"><p>render.py formats digits from docs/metrics. It does not recompute the model. scripts/build_metrics.py is the path that trains, ranks, simulates, and then calls the renderer. The learning site is static files plus the Pages workflow.</p></div>
+<h2>Code on main</h2>
+<ul><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/eval/render.py"><code>src/fit_finder/eval/render.py</code></a></li></ul>
+<h2>Practice</h2>
+<div class="prose"><p>Read the resume bullets out loud and mark any clause a hiring manager could mistake for production traffic. The simulated rates are allowed to stay if the sentence says simulated.</p></div>
+<h2>Quiz</h2>
+<p class="note">Eight questions. 80% to pass, which means 7 of 8. The questions are about boundaries and tradeoffs. Explanations show after you submit. The salted hash is a self-study speed bump, not protection.</p>
+<div id="quiz"></div>
+</div>
+
+</main>
+</div>
+<script src="js/site-config.js"></script>
+<script src="js/quiz-data.js"></script>
+<script src="js/academy.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "rows": 275334,
+  "users": 153529,
+  "items": 7228,
+  "by_source": {
+    "renttherunway": 192544,
+    "modcloth": 82790
+  },
+  "fit": {
+    "fit": 198815,
+    "small": 38753,
+    "large": 37766
+  },
+  "categories": 75,
+  "null_share": {
+    "height_in": 0.017,
+    "weight_lbs": 0.4096,
+    "age": 0.3042,
+    "bust_band": 0.0887,
+    "review_date": 0.3007
+  },
+  "review_text_column": false
+}

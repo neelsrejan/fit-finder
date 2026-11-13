@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session 7 · A simulated experiment with the knobs written down</title>
+<link rel="stylesheet" href="css/academy.css">
+
+<script>
+(function () {
+  var session = 7;
+  var ok = false;
+  try {
+    var raw = localStorage.getItem("ff-academy-progress-v1");
+    var data = raw ? JSON.parse(raw) : null;
+    var prev = data && data.sessions && data.sessions[String(session - 1)];
+    ok = !!(prev && prev.passed);
+  } catch (e) { ok = false; }
+  if (!ok) document.documentElement.classList.add("is-locked");
+})();
+</script>
+</head>
+<body data-page="session" data-session="7">
+<div class="app">
+<aside class="nav">
+<a class="brand" href="index.html"><div class="mark">ff</div><div><strong>fit-finder</strong><span>Learning site</span></div></a>
+<a class="item" href="index.html">Home</a>
+<div class="week">Sprint 1</div>
+<a class="item" data-session="1" href="session-1.html"><i class="dot"></i>S1 · PRD, skeleton, and a CI job with no secrets</a>
+<a class="item" data-session="2" href="session-2.html"><i class="dot"></i>S2 · Two review files, one table</a>
+<a class="item" data-session="3" href="session-3.html"><i class="dot"></i>S3 · A baseline, two learners, and a calibration split</a>
+<div class="week">Sprint 2</div>
+<a class="item" data-session="4" href="session-4.html"><i class="dot"></i>S4 · Rank items by fit rate, not by a guessed price</a>
+<a class="item" data-session="5" href="session-5.html"><i class="dot"></i>S5 · A local API with three routes</a>
+<a class="item" data-session="6" href="session-6.html"><i class="dot"></i>S6 · An extension that can only see the demo store</a>
+<a class="item active" data-session="7" href="session-7.html"><i class="dot"></i>S7 · A simulated experiment with the knobs written down</a>
+<div class="week">Sprint 3</div>
+<a class="item" data-session="8" href="session-8.html"><i class="dot"></i>S8 · Extracts, a star schema, and DAX</a>
+<a class="item" data-session="9" href="session-9.html"><i class="dot"></i>S9 · An H&amp;M adapter that refuses to download</a>
+<a class="item" data-session="10" href="session-10.html"><i class="dot"></i>S10 · Numbers that come from the scripts</a>
+<div class="nav-foot" id="nav-progress">Progress stays in this browser</div>
+</aside>
+<main class="main">
+
+<p class="kicker">Sprint 2 · Session 7</p>
+<h1>A simulated experiment with the knobs written down</h1>
+<p class="lede">Returns in the readout are draws from a latent size, not flags in the UCSD files. The sample-size formula is computed.</p>
+<p class="note">About 45–60 minutes · artifact: A/B readout marked simulated</p>
+<div class="lock-screen">
+  <div class="panel">
+    <h2>This session is locked</h2>
+    <p>Pass Session 6 at 80% or better to open the videos and this quiz. Retries on the earlier quiz are unlimited. If you already passed it on another computer, import that progress code from the home page.</p>
+    <p><a class="button" href="session-6.html">Go to Session 6</a> <a class="button secondary" href="index.html">Home</a></p>
+  </div>
+</div>
+<div class="lesson">
+<h2>Read first</h2>
+<ul><li>SIMULATION_DISCLAIMER.md</li><li>docs/EVAL_REPORT.md — the simulated A/B section.</li></ul>
+<h2>Watch in this order</h2>
+<p class="note">Each clip opens with what the file is responsible for, then walks the lines. The line numbers match <code>main</code>.</p>
+<article class="clip">
+<h3>1. Session 7 · A generator with the knobs outside the model</h3>
+<div class="panel"><p><strong>Architecture.</strong> This module builds the simulated shoppers. It does not load the size model. A latent size, a biased order, and a policy that is right about direction only with a named probability produce a return. The summarize function is what the eval report quotes, and every dict it returns says simulated true.</p></div>
+<video controls preload="metadata" src="videos/session-7/01_ab.mp4">
+<a href="videos/session-7/01_ab.mp4">Download clip 1</a>
+</video>
+<p class="meta">1:22 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/events/ab.py">src/fit_finder/events/ab.py</a> on <code>main</code></p>
+</article><article class="clip">
+<h3>2. Session 7 · The sample size is computed</h3>
+<div class="panel"><p><strong>Architecture.</strong> The power helper exists so the number in the readout is a formula, not a typed integer. It is the normal approximation for two proportions with equal allocation. It does not know about fit reviews. The caller passes the control rate from the simulation and a planned treatment rate two points lower.</p></div>
+<video controls preload="metadata" src="videos/session-7/02_power.mp4">
+<a href="videos/session-7/02_power.mp4">Download clip 2</a>
+</video>
+<p class="meta">0:58 · Andrew · <a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/events/power.py">src/fit_finder/events/power.py</a> on <code>main</code></p>
+</article>
+<h2>How this session connects</h2>
+<div class="prose"><p>assumptions.py holds the probabilities. ab.py draws shoppers. power.py turns the control rate and a 2 point planning lift into a sample size. None of these functions read the trained model. The model's directional accuracy stays in the model card.</p></div>
+<h2>Code on main</h2>
+<ul><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/events/ab.py"><code>src/fit_finder/events/ab.py</code></a></li><li><a href="https://github.com/neelsrejan/fit-finder/blob/main/src/fit_finder/events/power.py"><code>src/fit_finder/events/power.py</code></a></li></ul>
+<h2>Practice</h2>
+<div class="prose"><p>Someone wants to paste the simulated lift into the model card as proof the logistic regression cuts returns. Write the boundary that forbids it.</p></div>
+<h2>Quiz</h2>
+<p class="note">Eight questions. 80% to pass, which means 7 of 8. The questions are about boundaries and tradeoffs. Explanations show after you submit. The salted hash is a self-study speed bump, not protection.</p>
+<div id="quiz"></div>
+</div>
+
+</main>
+</div>
+<script src="js/site-config.js"></script>
+<script src="js/quiz-data.js"></script>
+<script src="js/academy.js"></script>
+</body>
+</html>
