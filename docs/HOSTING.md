@@ -38,14 +38,16 @@ Microsoft's free-license feature list says a free user cannot create a Publish t
 
 Closest free path: the CSV extracts are in `analytics/extracts/` and the Pages workflow copies them to `/extracts/` on the site. A hiring manager can download them and open them in Power BI Desktop. The owner can also publish the report to My workspace and look at it there. That view is not shared.
 
-## What the hiring manager can do after the accounts exist
+## What a hiring manager can open
 
-1. Open `https://neelsrejan.github.io/fit-finder/demo/`. The page calls the API. The extension is optional.
-2. Open `https://<render-service>.onrender.com/docs` and call `/health`, `/data/profile`, `/items?category=dress`, `/predict-size`, and `/recommend`.
+The API is live at `https://fit-finder-27yw.onrender.com` on Render's free plan. It reads the Neon table of 275,334 public UCSD reviews. OpenAPI is `https://fit-finder-27yw.onrender.com/docs`.
+
+1. Open `https://neelsrejan.github.io/fit-finder/demo/`. The page calls the API. The first request after a quiet stretch shows "waking the free server (~1 min)" because the free instance sleeps after 15 idle minutes. The extension is optional.
+2. Call `GET /health`, `GET /data/profile`, `GET /items?category=dress`, `POST /predict-size`, and `POST /recommend` on `https://fit-finder-27yw.onrender.com`.
 3. Load `extension/` unpacked if they want the panel injected. The manifest matches the demo page and localhost. It does not match retailer sites. `https://*.onrender.com/*` is a host permission so the panel can call the API, not a content-script match.
 4. Read `/powerbi/` on the site for the dashboard limitation, and download the extracts.
 
-Until `deploy/public.json` and `extension/config.js` contain the Render origin, the demo page says the URL is not set. It does not call the owner's laptop.
+`deploy/public.json` and `extension/config.js` both name `https://fit-finder-27yw.onrender.com`. The offline page at `http://127.0.0.1:8080/` still calls the local API.
 
 ## Owner checklist
 
@@ -57,12 +59,12 @@ Do these in order. Stop when a step needs a value you have not created. Do not c
    - URL: `https://neelsrejan.github.io/fit-finder/`.
    - Free: yes. The learning site, the demo page, the extracts, and the Power BI note are static files.
 
-2. **Render** for the API.
-   - Where: [https://render.com](https://render.com) → sign up with GitHub. New → Blueprint → select `neelsrejan/fit-finder` and `render.yaml`.
-   - Plan: Free. Confirm the service type is Free before you create it. Do not add a credit card. If the included bandwidth runs out, Render suspends the free service instead of billing.
-   - Env: `FIT_FINDER_DATABASE_URL` can wait until step 3. `FIT_FINDER_PUBLIC_API_URL` is the `https://….onrender.com` origin Render prints, with no trailing path.
-   - After the first successful deploy, copy that origin into `deploy/public.json` (`apiBase`) and `extension/config.js` (`FIT_FINDER_API_BASE`). They must match. Commit those two files. They are not secrets.
-   - Check: `GET /health` returns `model_loaded: true` and `training_rows: 275334`.
+2. **Render** for the API. Done.
+   - Live origin: `https://fit-finder-27yw.onrender.com`. Health check path: `/health`.
+   - Plan: Free. Do not add a credit card. If the included bandwidth runs out, Render suspends the free service instead of billing.
+   - The image sets `FIT_FINDER_ROOT=/app` so model and profile paths are the copied tree, not `site-packages`.
+   - `FIT_FINDER_DATABASE_URL` is the Neon direct string, set in the Render dashboard, not in git. `FIT_FINDER_PUBLIC_API_URL` is `https://fit-finder-27yw.onrender.com`.
+   - Check: `GET /health` returns `model_loaded: true`, `training_rows: 275334`, and `reviews_host: neon`.
 
 3. **Neon** for the cleaned reviews and demo events.
    - Where: [https://neon.com](https://neon.com) → Free plan. No credit card. Create a project, then copy the **direct** connection string (the host does not contain `-pooler`).

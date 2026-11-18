@@ -17,6 +17,6 @@ services:
       - key: FIT_FINDER_DATABASE_URL
         sync: false
       - key: FIT_FINDER_PUBLIC_API_URL
-        sync: false
+        value: https://fit-finder-27yw.onrender.com
       - key: WEB_CONCURRENCY
         value: "1"

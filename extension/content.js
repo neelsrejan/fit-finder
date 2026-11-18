@@ -60,7 +60,10 @@
 
   function ask(api, page) {
     var size = Number(page.selectedSize);
-    render("<p>Asking " + api + " about size " + page.selectedSize + ".</p>");
+    var pending = api.indexOf(".onrender.com") !== -1
+      ? "<p>The free host sleeps when nobody is calling it. This page is waking the free server (~1 min).</p>"
+      : "<p>Asking " + api + " about size " + page.selectedSize + ".</p>";
+    render(pending);
     fetch(api + "/predict-size", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

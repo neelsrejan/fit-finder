@@ -6,8 +6,10 @@ import json
 import re
 from pathlib import Path
 
+import pytest
 from fastapi.testclient import TestClient
 
+from fit_finder.config import load_settings, resolve_root
 from fit_finder.data.download import ATTEMPTS, BACKOFF_SECONDS, SOURCES, PublicDownloadError, download
 from fit_finder.data.pipeline import PROVENANCE_NOTE, _profile, write_profile
 from fit_finder.data.synthetic import make_reviews
@@ -15,6 +17,48 @@ from fit_finder.hm.adapter import public_hosting_block_reason
 from fit_finder.store import HostedStoreError, assert_public_frame, require_database_url
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_fit_finder_root_overrides_the_source_tree(monkeypatch, tmp_path):
+    monkeypatch.setenv("FIT_FINDER_ROOT", str(tmp_path))
+    assert resolve_root() == tmp_path.resolve()
+    assert load_settings().root == tmp_path.resolve()
+
+
+def test_unset_root_is_the_source_tree(monkeypatch):
+    monkeypatch.delenv("FIT_FINDER_ROOT", raising=False)
+    root = resolve_root()
+    assert (root / "pyproject.toml").is_file()
+    assert (root / "src" / "fit_finder" / "config.py").is_file()
+    assert "site-packages" not in root.parts
+
+
+def test_installed_copy_requires_fit_finder_root(tmp_path, monkeypatch):
+    monkeypatch.delenv("FIT_FINDER_ROOT", raising=False)
+    installed = tmp_path / "lib" / "python3.12" / "site-packages" / "fit_finder" / "config.py"
+    installed.parent.mkdir(parents=True)
+    installed.write_text("# installed copy\n")
+    with pytest.raises(RuntimeError, match="FIT_FINDER_ROOT"):
+        resolve_root(installed)
+    app_root = tmp_path / "app"
+    monkeypatch.setenv("FIT_FINDER_ROOT", str(app_root))
+    assert resolve_root(installed) == app_root.resolve()
+
+
+def test_image_sets_fit_finder_root_and_render_checks_health():
+    dockerfile = (ROOT / "Dockerfile").read_text()
+    assert "ENV FIT_FINDER_ROOT=/app" in dockerfile
+    assert "healthCheckPath: /health" in (ROOT / "render.yaml").read_text()
+
+
+def test_cors_allows_the_github_pages_origin():
+    from fit_finder.api.app import app
+
+    client = TestClient(app)
+    origin = "https://neelsrejan.github.io"
+    response = client.get("/health", headers={"Origin": origin})
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == origin
 
 
 def test_public_download_urls_need_no_token():
@@ -176,6 +220,7 @@ def test_demo_page_calls_the_api_from_config():
     script = (ROOT / "demo-store" / "panel.js").read_text()
     assert "panel.js" in html
     assert "config.json" in script
+    assert "waking the free server (~1 min)" in script
     assert "127.0.0.1:8000" in script
     for banned in ("amazon", "nordstrom", "nike.com", "hm.com"):
         assert banned not in script

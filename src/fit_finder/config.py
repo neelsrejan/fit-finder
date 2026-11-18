@@ -6,7 +6,33 @@ import os
 from dataclasses import dataclass
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+
+def source_tree_root(origin: Path | None = None) -> Path:
+    """Repo root when this file lives at ``src/fit_finder/config.py``.
+
+    A non-editable install puts the module in site-packages. ``parents[2]``
+    is then a Python lib directory, not the tree that holds ``models/`` and
+    ``docs/``. That layout must set ``FIT_FINDER_ROOT``.
+    """
+    here = (origin or Path(__file__)).resolve()
+    if here.parent.name == "fit_finder" and here.parent.parent.name == "src":
+        return here.parents[2]
+    raise RuntimeError(
+        "FIT_FINDER_ROOT is not set, and "
+        f"{here} is not src/fit_finder/config.py. "
+        "Set FIT_FINDER_ROOT to the directory that contains models/ and docs/."
+    )
+
+
+def resolve_root(origin: Path | None = None) -> Path:
+    """``FIT_FINDER_ROOT`` wins. Otherwise the checkout that holds this file."""
+    override = os.environ.get("FIT_FINDER_ROOT", "").strip()
+    if override:
+        return Path(override).expanduser().resolve()
+    return source_tree_root(origin)
+
+
+ROOT = resolve_root()
 
 # Public origins a hiring manager can open. The API URL is filled in after
 # the free host prints one. It is not a secret.
@@ -58,7 +84,7 @@ class Settings:
 
 
 def load_settings() -> Settings:
-    root = Path(os.environ.get("FIT_FINDER_ROOT", ROOT))
+    root = resolve_root()
     model = Path(os.environ.get("FIT_FINDER_MODEL", root / "models" / "size_model.joblib"))
     catalog = Path(os.environ.get("FIT_FINDER_CATALOG", root / "models" / "catalog.parquet"))
     events = Path(os.environ.get("FIT_FINDER_EVENTS", root / "data" / "events" / "events.jsonl"))

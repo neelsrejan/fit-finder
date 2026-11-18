@@ -4,7 +4,7 @@
 
 The hosted demo is `https://neelsrejan.github.io/fit-finder/demo/` after GitHub Pages is enabled and `deploy/public.json` has the Render origin. The page is a fixture: one dress, a size chart, a price, and three colors. It is not a store. The suggestion comes from the API. If the API URL is still empty, the page says so and does not invent a size.
 
-The API docs, once Render is connected, are `https://<service>.onrender.com/docs`. `GET /health` reports whether the committed public-review model is loaded and whether Neon is configured.
+The API docs are `https://fit-finder-27yw.onrender.com/docs`. `GET /health` reports the committed public-review model and the Neon row count.
 
 Offline, on a laptop:
 

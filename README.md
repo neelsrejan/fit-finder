@@ -54,7 +54,7 @@ fit-finder-api
 python -m http.server 8080
 ```
 
-Open `http://127.0.0.1:8080/`. That offline page calls the local API. The hiring-manager page is `https://neelsrejan.github.io/fit-finder/demo/` after Pages is enabled and `deploy/public.json` has the Render origin.
+Open `http://127.0.0.1:8080/`. That offline page calls the local API. The hiring-manager page is `https://neelsrejan.github.io/fit-finder/demo/`. It calls `https://fit-finder-27yw.onrender.com`. The free instance sleeps after 15 idle minutes; the page says it is waking the free server, which takes about a minute.
 
 Download the public reviews and, when `FIT_FINDER_DATABASE_URL` is set, load them into Neon:
 
@@ -80,8 +80,8 @@ The full checklist, with free-tier limits, is `docs/HOSTING.md`.
 
 | Block | What he needs to do |
 |---|---|
-| Render API | Sign up at render.com with GitHub, apply `render.yaml` on the Free plan, and do not add a credit card. Then put the `https://….onrender.com` origin in `deploy/public.json` and `extension/config.js`. |
-| Neon database | Create a free project at neon.com (no credit card) and export the direct connection string as `FIT_FINDER_DATABASE_URL`. Run `fit-finder-pipeline`. Until then `/health` says `reviews_host: not_configured` and still serves the committed model. |
+| Render API | Live at `https://fit-finder-27yw.onrender.com` on the free plan. `/health` is the health check. Do not add a credit card. |
+| Neon database | Loaded. `GET /data/profile` reports 275,334 hosted rows from the public UCSD files. The connection string stays in `FIT_FINDER_DATABASE_URL` on Render, not in git. |
 | GitHub Pages, if the workflow has not been enabled | Settings → Pages → Build and deployment → GitHub Actions. The workflow is `.github/workflows/pages.yml`. The URL will be `https://neelsrejan.github.io/fit-finder/`. |
 | Power BI public report | Not available on the free license. Follow `analytics/powerbi/BUILD.md` for a private My workspace view. The public files are the CSV extracts. |
 | H&M purchase file | Not part of the public API. The license is non-commercial and academic research, with no redistribution. The comparison uses `SyntheticHMSource`. |
