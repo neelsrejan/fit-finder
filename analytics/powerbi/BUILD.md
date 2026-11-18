@@ -1,8 +1,8 @@
 # Build the Power BI report
 
-The .pbix is built on Neel's Windows laptop. This repo does not contain one, and it cannot publish the report. Publish-to-web needs a free Microsoft account signed into the Power BI service. That step is blocked until Neel does it.
+The .pbix is built on Neel's Windows laptop. This repo does not contain one. Streamlit and Dash are not substitutes. The dashboard tool for this project is Power BI.
 
-Streamlit and Dash are not substitutes. The dashboard tool for this project is Power BI.
+A free Power BI license cannot create a Publish to web embed code, and it cannot share the report with another person (Microsoft Learn, "Features available to free users"). Publish to web also does not support reports that contain report-level DAX measures, which is how `measures.dax` is written. Power BI Pro is a paid license. This project does not buy it. There is no durable $0 public interactive report. The public artifact is the CSV extracts, also copied to GitHub Pages under `/extracts/`. `analytics/powerbi/public.html` says the same thing for someone who does not open the repo.
 
 ## 1. Open the extracts
 
@@ -39,10 +39,10 @@ Four pages. Put the word Simulated in the title of every page that uses `fact_sh
 3. **Simulated clicks.** Recommendation CTR as a card. A bar of click count by category. This page uses `fact_event`.
 4. **Illustrative cost.** Illustrative Return Cost as a card, with a subtitle that reads the assumed cost from `assumptions`. Do not title this page "revenue saved" without the word illustrative.
 
-## 5. Publish
+## 5. Your own view, not a public link
 
-1. Sign in to Power BI with the free Microsoft account.
-2. Publish the file to My workspace.
-3. Publish to web is a separate action in the service, and it makes the report public. Do that only if the public link is what you want on the resume. The report contains no reviewer names and no measurements. It does contain simulated behavior, so the page titles have to keep the simulated label after publish.
+1. Sign in to Power BI with a free Microsoft account.
+2. Publish the file to My workspace and look at it there.
+3. Do not buy Pro to force a share. A free license cannot create the public embed, and these measures are report-level DAX, which Publish to web does not support.
 
-Until that account exists, the deliverable is this folder plus the CSV extracts.
+The deliverable other people can open is this folder plus the CSV extracts.

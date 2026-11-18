@@ -68,7 +68,7 @@ SESSIONS = [
             "Start fit-finder-api and open /docs.",
             "Dockerfile — the image copies the package and the model files, not data/raw.",
         ],
-        "trace": "schemas.py is the contract. app.py loads the bundle and the catalog at startup and returns 503 if a file is missing. /events writes a real local request and marks simulated false. The simulated experiment does not use this route.",
+        "trace": "schemas.py is the contract. app.py loads the bundle and the catalog at startup and returns 503 if a file is missing. /events writes a request this process received and marks simulated false. When FIT_FINDER_DATABASE_URL is set, that row is stored in the hosted database. The simulated experiment does not use this route.",
         "practice": "Trace one size request from the pydantic body to predict_one. Name the field that would start meaning a tape-measure bust if someone merged it with the bra band.",
     },
     {
@@ -82,7 +82,7 @@ SESSIONS = [
             "extension/README.md — load unpacked, serve the demo store.",
             "docs/DEMO.md — the storyboard is drawn, not a retailer capture.",
         ],
-        "trace": "The content script and pageparse.py both read article.product, the size chart rows, and the size select. The manifest lists localhost and 127.0.0.1 only. A unit test fails if a retailer name appears in the manifest.",
+        "trace": "The content script and pageparse.py both read article.product, the size chart rows, and the size select. The manifest lists localhost, 127.0.0.1, and the GitHub Pages demo. It does not list retailer sites. A unit test fails if a retailer name appears in the manifest.",
         "practice": "Describe what would start being collected if the content script match became every https page. That is the whole answer. Do not widen the match.",
     },
     {
@@ -105,7 +105,7 @@ SESSIONS = [
         "title": "Extracts, a star schema, and DAX",
         "minutes": "40–55",
         "artifact": "Power BI build guide, no .pbix yet",
-        "blurb": "Power BI is the dashboard. The repo ships the files Neel loads on Windows. Publish-to-web waits on a Microsoft account.",
+        "blurb": "Power BI is the dashboard. The repo ships the files Neel loads on Windows. A free license cannot publish the report to the public web.",
         "read": [
             "analytics/powerbi/DATA_MODEL.md",
             "analytics/powerbi/BUILD.md — the four pages and the blocked publish step.",

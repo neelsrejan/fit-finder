@@ -1,0 +1,22 @@
+# Free Render web service. No credit card.
+# Apply from the Render dashboard: New → Blueprint → this repo.
+# Free instances sleep after 15 minutes without a request and wake in about a minute.
+# 750 free instance hours per workspace per month. One sleeping service stays inside that.
+# Do not attach a credit card. If included bandwidth is used up, Render suspends
+# the free service instead of charging.
+services:
+  - type: web
+    name: fit-finder
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: FIT_FINDER_DATABASE_URL
+        sync: false
+      - key: FIT_FINDER_PUBLIC_API_URL
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: "1"

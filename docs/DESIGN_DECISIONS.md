@@ -32,7 +32,7 @@ There is no keep or return flag. The catalog's `fit_rate` is the share of review
 
 ## The extension's trust boundary is the manifest
 
-A content script that can read any shopping site is a different product, and it is out of scope. Host permissions are localhost and 127.0.0.1. A test fails if a retailer name shows up in the manifest. The Python parser and the content script share one page contract so CI can check the demo HTML without Chrome.
+A content script that can read any shopping site is a different product, and it is out of scope. The content script matches localhost, 127.0.0.1, and the GitHub Pages demo. `https://*.onrender.com/*` is a host permission so the panel can call the API, not a page the script reads. A test fails if a retailer name shows up in the manifest. The Python parser and the content script share one page contract so CI can check the demo HTML without Chrome. The demo page also calls the API without the extension, so a hiring manager does not have to load an unpacked extension.
 
 ## The simulated experiment does not use the trained model as an oracle
 
@@ -40,7 +40,7 @@ If the simulation let the policy see the latent size, the lift would be a story 
 
 ## H&M stays behind an adapter
 
-`PurchaseHistorySource` has two implementations. Synthetic is the default and the one the metrics use. Kaggle is a class that can map `articles.csv` and `transactions_train.csv` once they exist on disk, plus a download function that raises unless the allow flag and both env vars are set. The build does not call it.
+`PurchaseHistorySource` has two implementations. Synthetic is the default and the one the metrics use. Kaggle is a class that can map `articles.csv` and `transactions_train.csv` once they exist on disk, plus a download function that raises unless the allow flag and both env vars are set. The build does not call it. The public API does not serve that file even after a private download: the competition license is non-commercial and academic research, with no redistribution.
 
 ## Power BI gets files, not a second dashboard
 

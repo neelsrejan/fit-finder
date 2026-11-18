@@ -24,11 +24,6 @@ from fit_finder.model.features import CATEGORICAL_FEATURES, NUMERIC_FEATURES, ad
 from fit_finder.model.split import assign_split
 
 try:
-    from lightgbm import LGBMClassifier
-except ImportError:  # pragma: no cover - installed in the project env
-    LGBMClassifier = None
-
-try:
     from sklearn.calibration import CalibratedClassifierCV
     from sklearn.frozen import FrozenEstimator
 except ImportError:  # pragma: no cover
@@ -116,8 +111,12 @@ def _logistic():
 
 
 def _lightgbm():
-    if LGBMClassifier is None:
-        raise RuntimeError("lightgbm is not installed")
+    # Imported here so the API process does not load LightGBM just to score
+    # the chosen logistic bundle. The free web instance has 512 MB of RAM.
+    try:
+        from lightgbm import LGBMClassifier
+    except ImportError as exc:  # pragma: no cover - installed in the project env
+        raise RuntimeError("lightgbm is not installed") from exc
     return LGBMClassifier(
         objective="multiclass",
         n_estimators=180,

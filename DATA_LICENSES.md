@@ -19,6 +19,8 @@ Misra, Rishabh, Mengting Wan, and Julian McAuley. "Decomposing Fit Semantics for
 
 The datasets page does not ship a separate license file with the gzip archives. It presents the files as public research data and asks for the citation. This repo follows that request.
 
+The paper's author also published the same two files on Kaggle as `rmisra/clothing-fit-dataset-for-size-recommendation` under Creative Commons Attribution 4.0. This repo downloads the lab URLs, which need no account, and cites the paper. It does not re-upload the reviews.
+
 What this repo does with the files:
 
 - The download script writes them under `data/raw/`, which is gitignored.
@@ -33,7 +35,9 @@ The reviews were originally written by people on ModCloth and Rent the Runway. U
 
 Competition page: `h-and-m-personalized-fashion-recommendations` on Kaggle.
 
-That file is not in this repo and was not downloaded. Kaggle competition data has its own rules, which Neel has to accept in a browser before an API token can fetch it. The synthetic fixture under the H&M adapter is original to this repo.
+The data page states `DATA ACCESS AND USE: Non-Commercial Purposes & Academic Research.` RelBench records the same rules as non-commercial and academic research only, with no redistribution. A public portfolio API is not that use. The file is not in this repo, was not downloaded, and is not loaded into the hosted database. `transactions_train.csv` is about 31.8 million rows, which also does not fit the free 1 GB database beside the UCSD table.
+
+The synthetic fixture under the H&M adapter is original to this repo. It is the CI and offline fallback for that comparison. A private download still requires the competition rules accepted in a browser, then `KAGGLE_USERNAME`, `KAGGLE_KEY`, and `FIT_FINDER_ALLOW_KAGGLE_DOWNLOAD=1`. That download must not be copied into the public store.
 
 ## Illustrative price bands
 

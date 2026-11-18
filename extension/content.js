@@ -1,8 +1,8 @@
-/* Demo-store reader. The attributes match fit_finder.pageparse. */
+/* Demo-page reader. The attributes match fit_finder.pageparse.
+   The API origin comes from the popup override, then extension/config.js,
+   then the local API when this page itself is on localhost. */
 (function () {
   "use strict";
-
-  var API = "http://127.0.0.1:8000";
 
   function product() {
     var node = document.querySelector("article.product");
@@ -11,12 +11,6 @@
       .split(",")
       .map(function (part) { return part.trim(); })
       .filter(Boolean);
-    var sizes = Array.prototype.map.call(
-      document.querySelectorAll("table.size-chart tr[data-size]"),
-      function (row) {
-        return { size: row.getAttribute("data-size"), text: row.innerText.replace(/\s+/g, " ").trim() };
-      }
-    );
     var selected = document.querySelector("#size-select option[selected]");
     var current = document.querySelector("#size-select");
     return {
@@ -25,7 +19,6 @@
       category: node.getAttribute("data-category"),
       price: node.getAttribute("data-price"),
       colors: colors,
-      sizes: sizes,
       selectedSize: (selected && selected.value) || (current && current.value) || null
     };
   }
@@ -35,7 +28,7 @@
     if (existing) return existing;
     var node = document.createElement("aside");
     node.id = "fit-finder-panel";
-    node.innerHTML = "<h2>fit-finder</h2><p class=\"ff-note\">Demo store only. Not a retailer prediction.</p><div id=\"ff-body\">Reading this page…</div>";
+    node.innerHTML = "<h2>fit-finder</h2><p class=\"ff-note\">Demo page. Not a retailer prediction.</p><div id=\"ff-body\">Reading this page…</div>";
     document.body.appendChild(node);
     return node;
   }
@@ -45,12 +38,30 @@
     document.getElementById("ff-body").innerHTML = html;
   }
 
-  function load() {
-    var page = product();
-    if (!page) return;
-    render("<p>Asking the local API for size " + page.selectedSize + ".</p>");
+  function localFallback() {
+    var host = location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") return "http://127.0.0.1:8000";
+    return "";
+  }
+
+  function resolveApi(done) {
+    var configured = (typeof FIT_FINDER_API_BASE === "string" ? FIT_FINDER_API_BASE : "").replace(/\/$/, "");
+    function finish(value) {
+      done((value || configured || localFallback()).replace(/\/$/, ""));
+    }
+    try {
+      chrome.storage.local.get(["apiBase"], function (stored) {
+        finish(stored && stored.apiBase ? String(stored.apiBase) : "");
+      });
+    } catch (err) {
+      finish("");
+    }
+  }
+
+  function ask(api, page) {
     var size = Number(page.selectedSize);
-    fetch(API + "/predict-size", {
+    render("<p>Asking " + api + " about size " + page.selectedSize + ".</p>");
+    fetch(api + "/predict-size", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -65,7 +76,7 @@
         return response.json();
       })
       .then(function (prediction) {
-        return fetch(API + "/recommend", {
+        return fetch(api + "/recommend", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -96,7 +107,7 @@
           ". Price $" + page.price + " is filtered only against an illustrative band.</p>" +
           "<h3>Similar in this category</h3><ul>" + (items || "<li>No catalog rows for this category.</li>") + "</ul>"
         );
-        fetch(API + "/events", {
+        fetch(api + "/events", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -109,8 +120,25 @@
         }).catch(function () { return null; });
       })
       .catch(function () {
-        render("<p>The local API is not running. Start it with <code>fit-finder-api</code> on port 8000, then reload this page.</p>");
+        var local = api.indexOf("127.0.0.1") !== -1 || api.indexOf("localhost") !== -1;
+        var copy = local
+          ? "The local API is not running. Start it with <code>fit-finder-api</code> on port 8000, then reload this page."
+          : "The configured API at <code>" + api + "</code> is not reachable. Nothing on this page was invented as a prediction.";
+        render("<p>" + copy + "</p>");
       });
+  }
+
+  function load() {
+    if (document.getElementById("fit-finder-panel")) return;
+    var page = product();
+    if (!page) return;
+    resolveApi(function (api) {
+      if (!api) {
+        render("<p>The public API URL is not set. After the free host prints an https origin, put it in <code>extension/config.js</code> and <code>deploy/public.json</code>. The extension does not run on retailer sites.</p>");
+        return;
+      }
+      ask(api, page);
+    });
   }
 
   if (document.readyState === "loading") {

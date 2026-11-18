@@ -1,19 +1,29 @@
 {
   "manifest_version": 3,
   "name": "fit-finder",
-  "version": "0.1.0",
-  "description": "Size and similar-item suggestions for the bundled fit-finder demo store. Does not run on retailer sites.",
+  "version": "0.2.0",
+  "description": "Size and similar-item suggestions for the fit-finder demo page. Does not run on retailer sites.",
   "permissions": ["storage"],
-  "host_permissions": ["http://127.0.0.1/*", "http://localhost/*"],
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "http://localhost/*",
+    "https://neelsrejan.github.io/*",
+    "https://*.onrender.com/*"
+  ],
   "action": {
-    "default_title": "fit-finder demo",
+    "default_title": "fit-finder",
     "default_popup": "popup.html"
   },
   "content_scripts": [
     {
-      "matches": ["http://127.0.0.1/*", "http://localhost/*"],
-      "js": ["content.js"],
-      "css": ["panel.css"]
+      "matches": [
+        "http://127.0.0.1/*",
+        "http://localhost/*",
+        "https://neelsrejan.github.io/fit-finder/*"
+      ],
+      "js": ["config.js", "content.js"],
+      "css": ["panel.css"],
+      "run_at": "document_idle"
     }
   ]
 }

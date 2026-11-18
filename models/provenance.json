@@ -1,0 +1,13 @@
+{
+  "source_kind": "ucsd_public",
+  "rows": 275334,
+  "users": 153529,
+  "items": 7228,
+  "by_source": {
+    "renttherunway": 192544,
+    "modcloth": 82790
+  },
+  "citation": "Misra, Wan, and McAuley, RecSys 2018",
+  "review_text_stored": false,
+  "note": "Counts come from the public McAuley Lab files after cleaning. The synthetic fixture is not this table. Re-running fit-finder-pipeline rewrites this file from the download."
+}

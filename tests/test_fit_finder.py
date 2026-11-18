@@ -160,6 +160,10 @@ def test_manifest_does_not_target_retailers():
     matches = " ".join(manifest["content_scripts"][0]["matches"])
     assert "localhost" in matches
     assert "127.0.0.1" in matches
+    assert "neelsrejan.github.io/fit-finder" in matches
+    assert "onrender.com" not in matches
+    permissions = " ".join(manifest["host_permissions"])
+    assert "onrender.com" in permissions
 
 
 def test_demo_page_parser():
@@ -174,6 +178,7 @@ def test_demo_page_parser():
 
 
 def test_api_round_trip(tmp_path, monkeypatch):
+    monkeypatch.delenv("FIT_FINDER_DATABASE_URL", raising=False)
     frame = make_reviews(n_users=36, reviews_each=4, seed=5)
     result = train_models(frame, lightgbm_rounds=10)
     model_path = tmp_path / "model.joblib"
@@ -211,9 +216,15 @@ def test_api_round_trip(tmp_path, monkeypatch):
 def test_settings_repr_hides_kaggle_key(monkeypatch):
     monkeypatch.setenv("KAGGLE_KEY", "super-secret-token")
     monkeypatch.setenv("KAGGLE_USERNAME", "neel")
+    monkeypatch.setenv(
+        "FIT_FINDER_DATABASE_URL",
+        "postgresql://neel:super-secret-token@ep-example.neon.tech/neondb",
+    )
     text = repr(load_settings())
     assert "super-secret-token" not in text
     assert "kaggle_key=set" in text
+    assert "database_url=set" in text
+    assert "neon.tech" not in text
 
 
 def test_fixture_csv_matches_schema():
