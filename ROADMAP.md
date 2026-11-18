@@ -1,6 +1,6 @@
 # Roadmap
 
-Three sprints, ten sessions. The repo contains all ten. Two deliverables wait on accounts.
+Three sprints, ten sessions. The repo contains all ten. The public host still waits on accounts. See `docs/HOSTING.md`.
 
 | Sprint | Sessions | Outcome |
 |---|---|---|
@@ -14,8 +14,8 @@ Sessions S1 through S10 are in this repository, including tests.
 
 ## Blocked
 
-- S8 publish-to-web. Needs Neel's Microsoft account and a .pbix built on Windows. Extracts, DAX, and the build guide are here.
-- S9 H&M customer file. Needs Neel's Kaggle username, key, and acceptance of the competition rules. The adapter, the synthetic fixture, and the fixture comparison are here.
+- Render and Neon. The API blueprint and the loader are in the repo. They stay dark until Neel creates the free accounts and sets `FIT_FINDER_DATABASE_URL`. A free license cannot publish the Power BI report to the web. Extracts, DAX, and the build guide are the public dashboard artifact.
+- S9 H&M customer file. The public API does not serve it: the competition license is non-commercial and academic research, with no redistribution. A private download still needs Neel's Kaggle username, key, and acceptance of the rules. The synthetic fixture comparison is the CI fallback.
 
 ## Later, if those unblock
 

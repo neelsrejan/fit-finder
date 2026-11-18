@@ -132,7 +132,7 @@ QUIZZES = {
             "Gitignore is what calibrates the logistic model so the validation split stays frozen.",
             "Gitignore removes categories so the ranker can only see the demo store fixture.",
             "Gitignore is the switch that marks simulated shoppers as held-out fit reviews.",
-            "CI uses a synthetic fixture. The real files stay local to a machine that downloaded them.",
+            "CI uses a synthetic fixture. The gzip files stay out of git, and the cleaned table is loaded into the hosted database only when that URL is set.",
         ),
         _q(
             "Why prefix user ids with the source name?",
@@ -428,7 +428,7 @@ QUIZZES = {
             "An offline message retrains the bundle in the browser and writes a new model card.",
             "An offline message switches the ranker to the Kaggle file stored in the extension.",
             "An offline message marks the page as a simulated shopper and logs a return.",
-            "Failure is part of the demo. The copy should say the local API is not running.",
+            "Failure is part of the demo. The copy should name the configured API and should not invent a size.",
         ),
         _q(
             "Why does the panel send the page price and then warn that the band is illustrative?",
@@ -558,7 +558,7 @@ QUIZZES = {
             "Publish-to-web needs Neel's Microsoft account inside the Power BI service.",
             "Publish-to-web needs the raw review text so the report can show comments.",
             "Publish-to-web needs the extension to match retailer hosts before the link works.",
-            "The guide says the step. The repo cannot sign in as him.",
+            "The repo cannot sign in as him. A free Power BI license cannot create a public embed code.",
         ),
         _q(
             "Why does the category dimension include categories from both facts?",

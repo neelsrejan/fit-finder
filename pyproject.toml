@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fit-finder"
 version = "0.1.0"
-description = "Portfolio prototype that predicts apparel fit with calibrated confidence and ranks similar items. Public fit reviews, a local API, and a demo-store extension. Shopper traffic is simulated."
+description = "Portfolio prototype that predicts apparel fit with calibrated confidence and ranks similar items. Public fit reviews, a hosted API, and a demo page. Shopper traffic is simulated."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -22,6 +22,7 @@ dependencies = [
   "fastapi>=0.110",
   "uvicorn>=0.27",
   "pyyaml>=6",
+  "psycopg[binary]>=3.1",
 ]
 
 [project.optional-dependencies]
@@ -30,6 +31,7 @@ academy = ["edge-tts>=7.2.7", "pygments>=2.18", "pillow>=10", "pyyaml>=6", "mark
 
 [project.scripts]
 fit-finder-api = "fit_finder.api.app:main"
+fit-finder-pipeline = "fit_finder.data.pipeline:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

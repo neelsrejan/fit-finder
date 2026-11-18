@@ -20,6 +20,28 @@ class HMDownloadBlocked(RuntimeError):
     """Raised when a download is requested and the gate is closed."""
 
 
+# RelBench records the competition rules as non-commercial and academic
+# research only, with no redistribution. The Kaggle data page states
+# "DATA ACCESS AND USE: Non-Commercial Purposes & Academic Research."
+# transactions_train.csv is about 31.8 million rows and does not fit the
+# free 1 GB database next to the UCSD reviews. A public API a hiring
+# manager can query is not that license.
+HM_LICENSE = "non-commercial and academic research only; no redistribution"
+
+
+def public_hosting_block_reason() -> str:
+    return (
+        "The H&M Personalized Fashion Recommendations file is not served by this "
+        "public API. Its Kaggle rules limit use to non-commercial purposes and "
+        "academic research and do not allow redistribution. "
+        "The comparison metrics stay on the synthetic fixture, which is the CI "
+        "and offline fallback. A private download still requires KAGGLE_USERNAME, "
+        "KAGGLE_KEY, FIT_FINDER_ALLOW_KAGGLE_DOWNLOAD=1, and acceptance of the "
+        "competition rules in a browser. That download must not be loaded into "
+        "the public database."
+    )
+
+
 class PurchaseHistorySource:
     """Articles and transactions in the columns the rankers share."""
 
@@ -144,7 +166,8 @@ def download_kaggle(destination: Path) -> Path:
         raise HMDownloadBlocked(
             "H&M download is blocked. Set KAGGLE_USERNAME, KAGGLE_KEY, and "
             "FIT_FINDER_ALLOW_KAGGLE_DOWNLOAD=1 after accepting the Kaggle "
-            "competition rules. This repo ships synthetic fixtures instead."
+            "competition rules. This repo ships synthetic fixtures instead. "
+            + public_hosting_block_reason()
         )
     if not settings.kaggle_username or not settings.kaggle_key:
         raise HMDownloadBlocked(

@@ -19,5 +19,6 @@
     "bust_band": 0.0887,
     "review_date": 0.3007
   },
-  "review_text_column": false
+  "review_text_column": false,
+  "source_kind": "ucsd_public"
 }

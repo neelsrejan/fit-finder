@@ -330,7 +330,7 @@ window.QUIZZES = {
         ],
         "salt": "4200433cfacabbc0",
         "answerHash": "cea10435fa8982fa4d8acc05fe4385d2216c22ca75f0249bcf0d10509c8391f9",
-        "explain": "Q0kgdXNlcyBhIHN5bnRoZXRpYyBmaXh0dXJlLiBUaGUgcmVhbCBmaWxlcyBzdGF5IGxvY2FsIHRvIGEgbWFjaGluZSB0aGF0IGRvd25sb2FkZWQgdGhlbS4="
+        "explain": "Q0kgdXNlcyBhIHN5bnRoZXRpYyBmaXh0dXJlLiBUaGUgZ3ppcCBmaWxlcyBzdGF5IG91dCBvZiBnaXQsIGFuZCB0aGUgY2xlYW5lZCB0YWJsZSBpcyBsb2FkZWQgaW50byB0aGUgaG9zdGVkIGRhdGFiYXNlIG9ubHkgd2hlbiB0aGF0IFVSTCBpcyBzZXQu"
       },
       {
         "id": "s2q6",
@@ -1150,7 +1150,7 @@ window.QUIZZES = {
         ],
         "salt": "61bdb701a6e120fa",
         "answerHash": "29b3cae6b1c5c4813aae3cbfdeda375a831c4ce9ddf45a5f0cef44832b5fe869",
-        "explain": "RmFpbHVyZSBpcyBwYXJ0IG9mIHRoZSBkZW1vLiBUaGUgY29weSBzaG91bGQgc2F5IHRoZSBsb2NhbCBBUEkgaXMgbm90IHJ1bm5pbmcu"
+        "explain": "RmFpbHVyZSBpcyBwYXJ0IG9mIHRoZSBkZW1vLiBUaGUgY29weSBzaG91bGQgbmFtZSB0aGUgY29uZmlndXJlZCBBUEkgYW5kIHNob3VsZCBub3QgaW52ZW50IGEgc2l6ZS4="
       },
       {
         "id": "s6q6",
@@ -1510,7 +1510,7 @@ window.QUIZZES = {
         ],
         "salt": "c7a86bd8d9516752",
         "answerHash": "bfb9ca279ec3b4c97b1e0a5d8aa7f58547592b817baeee6a4fa00008885dbb53",
-        "explain": "VGhlIGd1aWRlIHNheXMgdGhlIHN0ZXAuIFRoZSByZXBvIGNhbm5vdCBzaWduIGluIGFzIGhpbS4="
+        "explain": "VGhlIHJlcG8gY2Fubm90IHNpZ24gaW4gYXMgaGltLiBBIGZyZWUgUG93ZXIgQkkgbGljZW5zZSBjYW5ub3QgY3JlYXRlIGEgcHVibGljIGVtYmVkIGNvZGUu"
       },
       {
         "id": "s8q4",

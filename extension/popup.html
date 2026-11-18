@@ -4,13 +4,20 @@
   <meta charset="utf-8">
   <title>fit-finder</title>
   <style>
-    body { font: 15px/1.4 "Segoe UI", sans-serif; margin: 24px; color: #14232b; }
-    p { max-width: 36em; }
+    body { font: 15px/1.4 "Segoe UI", sans-serif; margin: 16px; color: #14232b; width: 320px; }
+    p, label { max-width: 36em; }
+    input { width: 100%; box-sizing: border-box; margin: 6px 0 10px; padding: 6px; }
+    button { padding: 6px 10px; }
   </style>
 </head>
 <body>
   <h1>fit-finder</h1>
-  <p>This extension reads the bundled demo store at <code>http://127.0.0.1</code> or <code>localhost</code>. It does not run on retailer sites.</p>
-  <p>Serve the demo with <code>python -m http.server 8080</code> from the <code>demo-store</code> folder, load this folder as an unpacked extension, and open the page.</p>
+  <p>This extension reads the demo page on <code>localhost</code> and on <code>neelsrejan.github.io/fit-finder</code>. It does not run on retailer sites.</p>
+  <p>The hiring-manager page is <a id="demo-link" href="https://neelsrejan.github.io/fit-finder/demo/">the hosted demo</a>. It calls the API on its own. Load this folder unpacked only if you want the panel injected.</p>
+  <label for="api-base">API origin override, stored in this browser only</label>
+  <input id="api-base" type="url" placeholder="https://your-service.onrender.com" autocomplete="off">
+  <button id="save" type="button">Save override</button>
+  <p id="status"></p>
+  <script src="popup.js"></script>
 </body>
 </html>
