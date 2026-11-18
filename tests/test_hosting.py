@@ -8,7 +8,8 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
-from fit_finder.data.download import SOURCES
+from fit_finder.data.download import ATTEMPTS, BACKOFF_SECONDS, SOURCES, PublicDownloadError, download
+from fit_finder.data.pipeline import PROVENANCE_NOTE, _profile, write_profile
 from fit_finder.data.synthetic import make_reviews
 from fit_finder.hm.adapter import public_hosting_block_reason
 from fit_finder.store import HostedStoreError, assert_public_frame, require_database_url
@@ -100,6 +101,74 @@ def test_committed_artifact_serves_the_public_catalog(monkeypatch, tmp_path):
     profile = client.get("/data/profile")
     assert profile.status_code == 200
     assert profile.json()["profile"]["rows"] == 275334
+
+
+def test_download_retries_ssl_eof_then_keeps_the_body(tmp_path, monkeypatch):
+    calls = {"n": 0}
+    sleeps: list[float] = []
+
+    class Body:
+        def __init__(self) -> None:
+            self._pending = b"not-empty"
+
+        def read(self, _size: int) -> bytes:
+            payload, self._pending = self._pending, b""
+            return payload
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args) -> bool:
+            return False
+
+    def fake_urlopen(_request, timeout=0):
+        assert timeout == 60
+        calls["n"] += 1
+        if calls["n"] < 2:
+            raise OSError("EOF occurred in violation of protocol (_ssl.c:2427)")
+        return Body()
+
+    monkeypatch.setattr("fit_finder.data.download.urllib.request.urlopen", fake_urlopen)
+    monkeypatch.setattr("fit_finder.data.download.time.sleep", lambda seconds: sleeps.append(seconds))
+    path = download(tmp_path, "modcloth", force=True)
+    assert path.read_bytes() == b"not-empty"
+    assert calls["n"] == 2
+    assert sleeps == [BACKOFF_SECONDS[0]]
+    assert list(tmp_path.glob("*.part")) == []
+
+
+def test_download_stops_on_a_missing_file_without_backoff(tmp_path, monkeypatch):
+    import urllib.error
+
+    sleeps: list[float] = []
+
+    def fake_urlopen(request, timeout=0):
+        raise urllib.error.HTTPError(request.full_url, 404, "missing", hdrs=None, fp=None)
+
+    monkeypatch.setattr("fit_finder.data.download.urllib.request.urlopen", fake_urlopen)
+    monkeypatch.setattr("fit_finder.data.download.time.sleep", lambda seconds: sleeps.append(seconds))
+    try:
+        download(tmp_path, "modcloth", force=True)
+    except PublicDownloadError as exc:
+        assert "404" in str(exc)
+    else:
+        raise AssertionError("a 404 must fail")
+    assert sleeps == []
+    assert ATTEMPTS == 4
+
+
+def test_profile_null_shares_stay_at_four_decimals_and_provenance_keeps_its_sentence(tmp_path):
+    frame = make_reviews(n_users=8, reviews_each=4, seed=1)
+    frame.loc[frame.index[:3], "height_in"] = float("nan")
+    first = _profile(frame)
+    second = _profile(frame)
+    assert first == second
+    for share in first["null_share"].values():
+        assert share == round(share, 4)
+    write_profile(tmp_path, first)
+    note = (tmp_path / "models" / "provenance.json").read_text()
+    assert "Re-running fit-finder-pipeline rewrites this file from the download." in note
+    assert PROVENANCE_NOTE in note
 
 
 def test_demo_page_calls_the_api_from_config():

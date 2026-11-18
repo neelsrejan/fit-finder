@@ -9,7 +9,15 @@ __pycache__/
 dist/
 build/
 .env
+.env.local
 out/
+
+# Neon CLI scaffolding from a local `neon` init. Not part of the app.
+.neon
+neon.ts
+/package.json
+/package-lock.json
+node_modules/
 .DS_Store
 .ipynb_checkpoints/
 

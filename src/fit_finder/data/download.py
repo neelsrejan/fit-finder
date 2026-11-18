@@ -3,10 +3,17 @@
 The files are public. This module does not read an API token. A failure
 names the URL and the host so a missing network is not mistaken for a
 missing account.
+
+The lab host sometimes closes the TLS socket mid-body (SSL EOF). Each
+file is fetched up to four times, with a 60 second timeout and a 1s/2s/4s
+backoff, before the error is raised.
 """
 
 from __future__ import annotations
 
+import http.client
+import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -31,6 +38,37 @@ class PublicDownloadError(RuntimeError):
     """The public lab file could not be fetched. No account is involved."""
 
 
+class _EmptyBody(OSError):
+    """A completed response with no bytes. Retried like a dropped socket."""
+
+
+# Four tries cover the SSL EOF that a second curl attempt gets past.
+ATTEMPTS = 4
+TIMEOUT_SECONDS = 60
+BACKOFF_SECONDS = (1.0, 2.0, 4.0)
+
+
+def _retryable(exc: BaseException) -> bool:
+    if isinstance(exc, urllib.error.HTTPError):
+        return exc.code in {408, 429, 500, 502, 503, 504}
+    return isinstance(exc, (urllib.error.URLError, TimeoutError, ConnectionError, OSError, http.client.IncompleteRead))
+
+
+def _fetch(url: str, tmp: Path) -> None:
+    request = urllib.request.Request(
+        url,
+        headers={"User-Agent": "fit-finder-portfolio/0.1 (public research download; +https://github.com/neelsrejan/fit-finder)"},
+    )
+    with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response, tmp.open("wb") as handle:
+        while True:
+            chunk = response.read(1024 * 256)
+            if not chunk:
+                break
+            handle.write(chunk)
+    if not tmp.exists() or tmp.stat().st_size <= 0:
+        raise _EmptyBody(f"Download of {url} wrote an empty file.")
+
+
 def download(raw_dir: Path, source: str, force: bool = False) -> Path:
     """Stream one gzip file into `raw_dir`. Skips the network if the file exists."""
     if source not in SOURCES:
@@ -41,30 +79,25 @@ def download(raw_dir: Path, source: str, force: bool = False) -> Path:
         return path
     url = SOURCES[source]
     tmp = path.with_suffix(path.suffix + ".part")
-    request = urllib.request.Request(
-        url,
-        headers={"User-Agent": "fit-finder-portfolio/0.1 (public research download; +https://github.com/neelsrejan/fit-finder)"},
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=120) as response, tmp.open("wb") as handle:
-            while True:
-                chunk = response.read(1024 * 256)
-                if not chunk:
-                    break
-                handle.write(chunk)
-    except Exception as exc:
-        tmp.unlink(missing_ok=True)
-        raise PublicDownloadError(
-            "Could not download the public UCSD file for "
-            f"{source} from {url}. This host does not use an API key. "
-            "Check that this machine can reach mcauleylab.ucsd.edu. "
-            f"Original error: {type(exc).__name__}: {exc}"
-        ) from exc
-    if tmp.stat().st_size <= 0:
-        tmp.unlink(missing_ok=True)
-        raise PublicDownloadError(f"Download of {url} wrote an empty file.")
-    tmp.replace(path)
-    return path
+    last_error: BaseException | None = None
+    for attempt in range(ATTEMPTS):
+        try:
+            _fetch(url, tmp)
+            tmp.replace(path)
+            return path
+        except Exception as exc:
+            tmp.unlink(missing_ok=True)
+            last_error = exc
+            if attempt + 1 == ATTEMPTS or not _retryable(exc):
+                raise PublicDownloadError(
+                    "Could not download the public UCSD file for "
+                    f"{source} from {url} after {attempt + 1} attempt"
+                    f"{'' if attempt == 0 else 's'}. This host does not use an API key. "
+                    "Check that this machine can reach mcauleylab.ucsd.edu. "
+                    f"Original error: {type(exc).__name__}: {exc}"
+                ) from exc
+            time.sleep(BACKOFF_SECONDS[attempt])
+    raise PublicDownloadError(f"Could not download {url}.") from last_error
 
 
 def download_all(raw_dir: Path, force: bool = False) -> dict[str, Path]:

@@ -17,18 +17,36 @@ from fit_finder.data.download import download_all
 from fit_finder.store import HostedStoreError, assert_public_frame, load_reviews, require_database_url
 
 
+# Four decimals matches the committed profile. A raw mean is a long float
+# that changes the file without changing the table.
+NULL_SHARE_COLUMNS = ("height_in", "weight_lbs", "age", "bust_band", "review_date")
+PROVENANCE_NOTE = (
+    "Counts come from the public McAuley Lab files after cleaning. "
+    "The synthetic fixture is not this table. "
+    "Re-running fit-finder-pipeline rewrites this file from the download."
+)
+
+
+def _count_map(series: pd.Series) -> dict[str, int]:
+    """Count descending, label ascending on a tie. Stable across pandas versions."""
+    pairs = [(str(key), int(value)) for key, value in series.value_counts().items()]
+    pairs.sort(key=lambda pair: (-pair[1], pair[0]))
+    return dict(pairs)
+
+
+def _share(frame: pd.DataFrame, column: str) -> float:
+    return round(float(frame[column].isna().mean()), 4)
+
+
 def _profile(frame: pd.DataFrame) -> dict:
     return {
         "rows": int(len(frame)),
         "users": int(frame["user_id"].nunique()),
         "items": int(frame["item_id"].nunique()),
-        "by_source": {str(key): int(value) for key, value in frame["source"].value_counts().to_dict().items()},
-        "fit": {str(key): int(value) for key, value in frame["fit"].value_counts().to_dict().items()},
+        "by_source": _count_map(frame["source"]),
+        "fit": _count_map(frame["fit"]),
         "categories": int(frame["category"].nunique()),
-        "null_share": {
-            col: float(frame[col].isna().mean())
-            for col in ("height_in", "weight_lbs", "age", "bust_band", "review_date")
-        },
+        "null_share": {column: _share(frame, column) for column in NULL_SHARE_COLUMNS},
         "review_text_column": False,
         "source_kind": "ucsd_public",
     }
@@ -54,10 +72,7 @@ def write_profile(root: Path, profile: dict) -> Path:
         "by_source": profile["by_source"],
         "citation": "Misra, Wan, and McAuley, RecSys 2018",
         "review_text_stored": False,
-        "note": (
-            "Counts come from the public McAuley Lab files after cleaning. "
-            "The synthetic fixture is not this table."
-        ),
+        "note": PROVENANCE_NOTE,
     }
     dest = root / "models" / "provenance.json"
     dest.parent.mkdir(parents=True, exist_ok=True)

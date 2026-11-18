@@ -32,14 +32,11 @@ def ensure_parquet(root: Path) -> Path:
     download_all(raw)
     frame = clean_directory(raw)
     write_parquet(frame, processed)
-    profile = {
-        "rows": int(len(frame)),
-        "by_source": frame["source"].value_counts().to_dict(),
-        "fit": frame["fit"].value_counts().to_dict(),
-        "null_share": {col: float(frame[col].isna().mean()) for col in ("height_in", "weight_lbs", "age", "bust_band")},
-    }
-    (root / "docs" / "metrics").mkdir(parents=True, exist_ok=True)
-    (root / "docs" / "metrics" / "data_profile.json").write_text(json.dumps(profile, indent=2) + "\n")
+    # Same writer as the pipeline, so a metrics rebuild does not expand the
+    # null shares into long floats or drop the provenance sentence.
+    from fit_finder.data.pipeline import _profile, write_profile
+
+    write_profile(root, _profile(frame))
     return processed
 
 
