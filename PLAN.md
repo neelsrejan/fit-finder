@@ -23,7 +23,7 @@ Honesty: shopper traffic, clicks, returns, and A/B results are simulated and lab
 
 ## Sprint 3: analytics, H&M, eval
 
-- S8 Analytics dashboard in Power BI. Locked 2026-11-11: Neel builds the .pbix on a Windows laptop. Streamlit and Dash are out of scope. The repo ships CSV extracts, a star-schema document, DAX measures, and a build guide. Publish-to-web needs a free Microsoft account and is flagged as blocked. Visuals: CTR on recs, predicted versus actual fit feedback, the A/B result, and illustrative dollars from fewer simulated fit returns.
+- S8 Analytics dashboard in Power BI. Locked 2026-11-11: Neel builds the .pbix on a Windows laptop. Streamlit and Dash are not the analytics dashboard. The repo ships CSV extracts, a star-schema document, DAX measures, and a build guide. Publish-to-web needs a free Microsoft account and is flagged as blocked. Visuals: CTR on recs, predicted versus actual fit feedback, the A/B result, and illustrative dollars from fewer simulated fit returns. The later guided tour is a Streamlit front end for a hiring manager. It links to those extracts. It does not replace the report.
 - S9 H&M integration: purchase-history recommendations behind an adapter, compared with the S4 ranker on a synthetic fixture. The Kaggle download is implemented and refused unless the env vars are set. Deliverable: before/after ranking metrics on the fixture, with the real file marked blocked.
 - S10 Eval report, README, demo notes, resume bullets filled from the generated metrics, learning site. Deliverable: published repo and site, except the H&M customer file and the Power BI publish step.
 

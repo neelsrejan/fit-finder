@@ -2,7 +2,9 @@
 
 ## What a reader can open
 
-The hosted demo is `https://neelsrejan.github.io/fit-finder/demo/` after GitHub Pages is enabled and `deploy/public.json` has the Render origin. The page is a fixture: one dress, a size chart, a price, and three colors. It is not a store. The suggestion comes from the API. If the API URL is still empty, the page says so and does not invent a size.
+The hiring-manager tour is the Streamlit app: `streamlit run streamlit_app.py` locally, and Streamlit Community Cloud from `main` once that deploy exists. Main file `streamlit_app.py`. Walk the eight steps in `README.md`. Free explore is the last step. The app calls the Render API and does not hold the Neon URL.
+
+The fixture page is `https://neelsrejan.github.io/fit-finder/demo/` after GitHub Pages is enabled and `deploy/public.json` has the Render origin. The page is a fixture: one dress, a size chart, a price, and three colors. It is not a store. The extension reads it. The suggestion comes from the API. If the API URL is still empty, the page says so and does not invent a size. The size dropdown on that fixture does not resubmit; the tour's size prompts do.
 
 The API docs are `https://fit-finder-27yw.onrender.com/docs`. `GET /health` reports the committed public-review model and the Neon row count.
 

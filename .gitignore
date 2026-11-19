@@ -10,6 +10,7 @@ dist/
 build/
 .env
 .env.local
+.streamlit/secrets.toml
 out/
 
 # Neon CLI scaffolding from a local `neon` init. Not part of the app.
