@@ -24,7 +24,7 @@ The confidence is only as good as the calibration on the held-out split. The mod
 - Running on Amazon, H&M, Nordstrom, Rent the Runway, ModCloth, or any other retailer site. The extension's manifest does not list those hosts.
 - Claiming a return rate, a revenue number, or a click-through rate from real shoppers. Those figures in this repo are simulated or illustrative.
 - Downloading the H&M Kaggle competition file without Neel's key and an explicit allow flag, or putting that file on the public API. The competition license is non-commercial and academic research, with no redistribution.
-- A Streamlit or Dash dashboard. The dashboard tool is Power BI.
+- Replacing the Power BI dashboard with a Streamlit or Dash report. The hiring-manager front end is a guided Streamlit walkthrough. The analytics dashboard stays Power BI, and a free license still cannot publish it.
 - Using review text, reviewer names, length feedback, or quality scores as model inputs. They are outcomes or identifiers, not things the service would know when suggesting a size.
 
 ## Success for the portfolio

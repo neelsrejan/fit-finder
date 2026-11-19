@@ -21,8 +21,9 @@ Checked on 2026-11-18 by downloading both gzip files and cleaning them in this r
 |---|---|---|---|
 | API | Render free web service (`render.yaml`) | $0, no credit card | Docker, public https URL, 750 instance hours a month. Sleeps after 15 idle minutes and wakes on the next request, about a minute. Hugging Face Docker Spaces now require a paid plan. Render's free Postgres expires after 30 days, so it is not the database. |
 | Review table and demo events | Neon Postgres free plan | $0, no credit card | 1 GB per project, does not expire, scales to zero. The cleaned table fits. Use the **direct** connection string (hostname without `-pooler`) because the loader uses `COPY`. |
-| Demo page, learning site, CSV extracts, Power BI limitation page | GitHub Pages | $0 | Already the project's static host. The workflow publishes `academy/site` plus `demo-store`, the extracts, and the Power BI note. |
-| Dashboard | Power BI | see the limitation below | Locked. Streamlit and Dash are not substitutes. |
+| Guided tour | Streamlit Community Cloud | $0, no credit card | Front end, from `main`, main file `streamlit_app.py`. Same host pattern as invalid-agent. Calls the Render API. Does not hold the Neon URL. |
+| Fixture page, learning site, CSV extracts, Power BI limitation page | GitHub Pages | $0 | The workflow publishes `academy/site` plus `demo-store`, the extracts, and the Power BI note. The fixture is what the extension reads. |
+| Dashboard | Power BI | see the limitation below | Still the analytics dashboard. The Streamlit tour is the hiring-manager walkthrough, not a substitute report. |
 
 `FIT_FINDER_DATABASE_URL` empty is a real state. The API still serves the committed model and catalog and says `reviews_host: not_configured`. It does not pretend the table is in Neon.
 
@@ -42,10 +43,13 @@ Closest free path: the CSV extracts are in `analytics/extracts/` and the Pages w
 
 The API is live at `https://fit-finder-27yw.onrender.com` on Render's free plan. It reads the Neon table of 275,334 public UCSD reviews. OpenAPI is `https://fit-finder-27yw.onrender.com/docs`.
 
-1. Open `https://neelsrejan.github.io/fit-finder/demo/`. The page calls the API. The first request after a quiet stretch shows "waking the free server (~1 min)" because the free instance sleeps after 15 idle minutes. The extension is optional.
-2. Call `GET /health`, `GET /data/profile`, `GET /items?category=dress`, `POST /predict-size`, and `POST /recommend` on `https://fit-finder-27yw.onrender.com`.
-3. Load `extension/` unpacked if they want the panel injected. The manifest matches the demo page and localhost. It does not match retailer sites. `https://*.onrender.com/*` is a host permission so the panel can call the API, not a content-script match.
-4. Read `/powerbi/` on the site for the dashboard limitation, and download the extracts.
+The front door is the Streamlit walkthrough. Locally that is `streamlit run streamlit_app.py`. On Streamlit Community Cloud it is the URL printed after a deploy from `main` (main file `streamlit_app.py`). The tour is eight steps: the question, the reviews, the size she is considering, the size call, similar items, whether the model was any good, what is simulated, and the recommendation. Free explore is the last step. The layout audit is `docs/UI_AUDIT.md`.
+
+1. Open the Streamlit tour and walk the eight steps. The first request after a quiet stretch says it is waking the free server (~1 min), because the free Render instance sleeps after 15 idle minutes. If that call fails, the tour shows the committed public-review artifact and says so. It does not pretend the synthetic fixture is Neon.
+2. The fixture page remains `https://neelsrejan.github.io/fit-finder/demo/`. The extension reads that page. It is not the tour.
+3. Call `GET /health`, `GET /data/profile`, `GET /items?category=dress`, `POST /predict-size`, and `POST /recommend` on `https://fit-finder-27yw.onrender.com` from free explore, or from the API docs.
+4. Load `extension/` unpacked if they want the panel injected. The manifest matches the demo page and localhost. It does not match retailer sites. `https://*.onrender.com/*` is a host permission so the panel can call the API, not a content-script match.
+5. Step 7 links to `/powerbi/` and the extracts. A free license still cannot publish the report.
 
 `deploy/public.json` and `extension/config.js` both name `https://fit-finder-27yw.onrender.com`. The offline page at `http://127.0.0.1:8080/` still calls the local API.
 
@@ -91,4 +95,10 @@ Do these in order. Stop when a step needs a value you have not created. Do not c
    - Env: `KAGGLE_USERNAME`, `KAGGLE_KEY`, and `FIT_FINDER_ALLOW_KAGGLE_DOWNLOAD=1`.
    - Do not load that file into Neon and do not point the public API at it. The license is non-commercial and academic research, with no redistribution.
 
-6. **Chrome Web Store**. Not used. The developer registration fee is $5, which is not zero spend. A hiring manager loads `extension/` unpacked, or skips the extension and uses the demo page.
+6. **Chrome Web Store**. Not used. The developer registration fee is $5, which is not zero spend. A hiring manager loads `extension/` unpacked, or skips the extension and uses the fixture page.
+
+7. **Streamlit Community Cloud** for the guided tour.
+   - Where: [https://share.streamlit.io](https://share.streamlit.io), signed in with GitHub. Deploy this repository. Branch: `main`. Main file: `streamlit_app.py`.
+   - Free: yes. Do not add a credit card. Do not paste `FIT_FINDER_DATABASE_URL`, `KAGGLE_KEY`, or any token into the secrets editor. `.streamlit/secrets.toml.example` is empty on purpose. The app calls the public Render origin.
+   - Optional: `FIT_FINDER_PUBLIC_API_URL` only if the Render origin changes. Leave `FIT_FINDER_GUIDE_BACKEND` unset. `synthetic` is the CI fallback, not the public demo.
+   - Check: the navy banner on step 2 says the live Neon table, and the hosted row count is 275,334. Free explore can read health. The page never prints a connection string.

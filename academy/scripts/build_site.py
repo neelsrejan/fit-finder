@@ -232,14 +232,14 @@ def home_body() -> str:
 <div class="cards">
   <a class="link-card" id="link-github" href="{REPO}"><div class="label">Repository</div><strong>GitHub</strong><p>neelsrejan/fit-finder. The code on screen is main.</p></a>
   <a class="link-card" href="{REPO}/blob/main/analytics/powerbi/BUILD.md"><div class="label">Dashboard</div><strong>Power BI guide</strong><p>Extracts and DAX are in the repo. The .pbix is built on Windows.</p></a>
-  <a class="link-card" href="https://neelsrejan.github.io/fit-finder/demo/"><div class="label">Demo</div><strong>Hosted demo page</strong><p>Calls the public API once that URL is set. The extension does not run on retailer sites.</p></a>
+  <a class="link-card" href="https://neelsrejan.github.io/fit-finder/demo/"><div class="label">Fixture</div><strong>Demo page</strong><p>The extension reads this page. The guided tour is the Streamlit app from main.</p></a>
 </div>
 <h2>How to run it locally</h2>
 <div class="panel">
 <pre>python -m pip install -e ".[dev]"
 python -m pytest
-fit-finder-api</pre>
-<p class="note">Practice notes stay in your own scratch file. Do not widen the extension manifest.</p>
+streamlit run streamlit_app.py</pre>
+<p class="note">Walk the eight steps, then free explore. The fixture page is separate. Do not widen the extension manifest.</p>
 </div>
 <h2>Sessions</h2>
 <div class="session-grid">

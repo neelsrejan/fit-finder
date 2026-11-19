@@ -42,6 +42,10 @@ If the simulation let the policy see the latent size, the lift would be a story 
 
 `PurchaseHistorySource` has two implementations. Synthetic is the default and the one the metrics use. Kaggle is a class that can map `articles.csv` and `transactions_train.csv` once they exist on disk, plus a download function that raises unless the allow flag and both env vars are set. The build does not call it. The public API does not serve that file even after a private download: the competition license is non-commercial and academic research, with no redistribution.
 
+## The hiring-manager front end is a guided tour
+
+The fixture page, the learning site, and Swagger each ask the visitor to invent the order. `docs/UI_AUDIT.md` is that review. The public front door is now a Streamlit walkthrough with eight steps, Next and Back, one chart or table per step, and free explore only at the end. The theme tokens match the invalid-agent Streamlit app. The tour calls the Render API, which reads Neon. It is not a second analytics dashboard.
+
 ## Power BI gets files, not a second dashboard
 
 Extracts are CSV so Power BI Desktop can load them without a gateway. The model-score fact is a sample of held-out predictions and has no shopper id and no measurements. The shopper and event facts are simulated and carry a column that says so. DAX divides clicks by recommendation impressions, and divides returns by shoppers. The dollar measure multiplies by the assumed cost in `assumptions.csv`.
